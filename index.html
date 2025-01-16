@@ -121,16 +121,18 @@
             const generationTime = document.getElementById('generationTime').value.replace(/:/g, '').padEnd(6, '0');
 
             const layoutVersion = padLeft(document.getElementById('layoutVersion').value, 3);
-            const message1 = padRight(document.getElementById('message1').value || '', 40);
-            const message2 = padRight(document.getElementById('message2').value || '', 40);
+
+            // Mensagens alinhadas à direita, preenchidas com espaços
+            const message1 = padLeft(document.getElementById('message1').value || '', 48, ' '); // 40 posições
+            const message2 = padLeft(document.getElementById('message2').value || '', 48, ' '); // 40 posições
 
             // Header do Arquivo
             const headerArquivo = `${bankCode}00000         215952971000109${convenioCode}${agency}${agencyDv}${account}${accountDv} ${companyName}${bankName}${padRight('', 10)}1${generationDate}${generationTime}${padLeft('232', 6)}${layoutVersion}01600${padRight('', 20)}${padRight('', 20)}${padRight('', 29)}`;
 
-            // Header do Lote
-            const headerLote = `${bankCode}00011C3001045 215952971000109${convenioCode}${agency}${agencyDv}${account}${accountDv} ${companyName}${message1}${message2}${padRight('', 20)}${padRight('', 8)}${padRight('', 10)}`;
+            // Header do Lote -> TODO o header lote esta com 236 caracteres, qual pode ser o motivo
+            const headerLote = `${bankCode}00011C3001045 215952971000109${convenioCode}${agency}${agencyDv}${account}${accountDv} ${companyName}${message1}${message2}${padRight('', 20)}${padRight('', 8)}${padRight('', 14)}`;
 
-            document.getElementById('output').value = `Header do Arquivo:\n${headerArquivo}\n\nHeader do Lote:\n${headerLote}`;
+            document.getElementById('output').value = `${headerArquivo}\n${headerLote}`;
         }
     </script>
 </body>
