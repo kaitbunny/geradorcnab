@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CNAB Header Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        input {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+        textarea {
+            width: 100%;
+            height: 100px;
+            padding: 8px;
+            box-sizing: border-box;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+    <h1>CNAB Header Generator</h1>
+    <form id="cnabForm">
+        <div class="form-group">
+            <label for="bankCode">Código do Banco</label>
+            <input type="text" id="bankCode" maxlength="3" required>
+        </div>
+        <div class="form-group">
+            <label for="companyName">Nome da Empresa</label>
+            <input type="text" id="companyName" maxlength="30" required>
+        </div>
+        <div class="form-group">
+            <label for="bankName">Nome do Banco</label>
+            <input type="text" id="bankName" maxlength="30" required>
+        </div>
+        <div class="form-group">
+            <label for="registrationNumber">Número de Inscrição da Empresa</label>
+            <input type="text" id="registrationNumber" maxlength="14" required>
+        </div>
+        <div class="form-group">
+            <label for="convenioCode">Código do Convênio</label>
+            <input type="text" id="convenioCode" maxlength="20">
+        </div>
+        <div class="form-group">
+            <label for="agency">Agência</label>
+            <input type="text" id="agency" maxlength="5" required>
+        </div>
+        <div class="form-group">
+            <label for="agencyDv">Dígito da Agência</label>
+            <input type="text" id="agencyDv" maxlength="1">
+        </div>
+        <div class="form-group">
+            <label for="account">Conta Corrente</label>
+            <input type="text" id="account" maxlength="12" required>
+        </div>
+        <div class="form-group">
+            <label for="accountDv">Dígito da Conta</label>
+            <input type="text" id="accountDv" maxlength="1">
+        </div>
+        <div class="form-group">
+            <label for="generationDate">Data de Geração</label>
+            <input type="date" id="generationDate" required>
+        </div>
+        <div class="form-group">
+            <label for="generationTime">Hora de Geração</label>
+            <input type="time" id="generationTime" required>
+        </div>
+        <div class="form-group">
+            <label for="layoutVersion">Versão do Layout</label>
+            <input type="text" id="layoutVersion" maxlength="3" value="084" required>
+        </div>
+        <div class="form-group">
+            <label for="message1">Mensagem 1 (Opcional)</label>
+            <input type="text" id="message1" maxlength="40">
+        </div>
+        <div class="form-group">
+            <label for="message2">Mensagem 2 (Opcional)</label>
+            <input type="text" id="message2" maxlength="40">
+        </div>
+        <button type="button" onclick="generateCNABHeaders()">Gerar Headers</button>
+    </form>
+    <textarea id="output" readonly placeholder="Os headers CNAB aparecerão aqui..."></textarea>
+
+    <script>
+        function padRight(str, length, char = ' ') {
+            return str.padEnd(length, char);
+        }
+
+        function padLeft(str, length, char = '0') {
+            return str.padStart(length, char);
+        }
+
+        function generateCNABHeaders() {
+            const bankCode = padLeft(document.getElementById('bankCode').value, 3);
+            const companyName = padRight(document.getElementById('companyName').value.toUpperCase(), 30);
+            const bankName = padRight(document.getElementById('bankName').value.toUpperCase(), 30);
+            const registrationNumber = padLeft(document.getElementById('registrationNumber').value, 14);
+            const convenioCode = padRight(document.getElementById('convenioCode').value || '', 20);
+            const agency = padLeft(document.getElementById('agency').value, 5);
+            const agencyDv = padRight(document.getElementById('agencyDv').value || '', 1);
+            const account = padLeft(document.getElementById('account').value, 12);
+            const accountDv = padRight(document.getElementById('accountDv').value || '', 1);
+
+            // Corrigir data e hora de geração
+            const generationDateInput = document.getElementById('generationDate').value; // Formato ISO
+            const generationDate = generationDateInput.split('-').reverse().join(''); // Converte para DDMMAAAA
+
+            const generationTime = document.getElementById('generationTime').value.replace(/:/g, '').padEnd(6, '0');
+
+            const layoutVersion = padLeft(document.getElementById('layoutVersion').value, 3);
+            const message1 = padRight(document.getElementById('message1').value || '', 40);
+            const message2 = padRight(document.getElementById('message2').value || '', 40);
+
+            // Header do Arquivo
+            const headerArquivo = `${bankCode}00000         215952971000109${convenioCode}${agency}${agencyDv}${account}${accountDv} ${companyName}${bankName}${padRight('', 10)}1${generationDate}${generationTime}${padLeft('232', 6)}${layoutVersion}01600${padRight('', 20)}${padRight('', 20)}${padRight('', 29)}`;
+
+            // Header do Lote
+            const headerLote = `${bankCode}00011C3001045 215952971000109${convenioCode}${agency}${agencyDv}${account}${accountDv} ${companyName}${message1}${message2}${padRight('', 20)}${padRight('', 8)}${padRight('', 10)}`;
+
+            document.getElementById('output').value = `Header do Arquivo:\n${headerArquivo}\n\nHeader do Lote:\n${headerLote}`;
+        }
+    </script>
+</body>
+</html>
