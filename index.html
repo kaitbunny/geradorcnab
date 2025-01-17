@@ -33,65 +33,163 @@
 </head>
 <body>
     <h1>CNAB Header Generator</h1>
-    <form id="cnabForm">
-        <div class="form-group">
-            <label for="bankCode">Código do Banco</label>
-            <input type="text" id="bankCode" maxlength="3" required>
-        </div>
-        <div class="form-group">
-            <label for="companyName">Nome da Empresa</label>
-            <input type="text" id="companyName" maxlength="30" required>
-        </div>
-        <div class="form-group">
-            <label for="bankName">Nome do Banco</label>
-            <input type="text" id="bankName" maxlength="30" required>
-        </div>
-        <div class="form-group">
-            <label for="registrationNumber">Número de Inscrição da Empresa</label>
-            <input type="text" id="registrationNumber" maxlength="14" required>
-        </div>
-        <div class="form-group">
-            <label for="convenioCode">Código do Convênio</label>
-            <input type="text" id="convenioCode" maxlength="20">
-        </div>
-        <div class="form-group">
-            <label for="agency">Agência</label>
-            <input type="text" id="agency" maxlength="5" required>
-        </div>
-        <div class="form-group">
-            <label for="agencyDv">Dígito da Agência</label>
-            <input type="text" id="agencyDv" maxlength="1">
-        </div>
-        <div class="form-group">
-            <label for="account">Conta Corrente</label>
-            <input type="text" id="account" maxlength="12" required>
-        </div>
-        <div class="form-group">
-            <label for="accountDv">Dígito da Conta</label>
-            <input type="text" id="accountDv" maxlength="1">
-        </div>
-        <div class="form-group">
-            <label for="generationDate">Data de Geração</label>
-            <input type="date" id="generationDate" required>
-        </div>
-        <div class="form-group">
-            <label for="generationTime">Hora de Geração</label>
-            <input type="time" id="generationTime" required>
-        </div>
-        <div class="form-group">
-            <label for="layoutVersion">Versão do Layout</label>
-            <input type="text" id="layoutVersion" maxlength="3" value="084" required>
-        </div>
-        <div class="form-group">
-            <label for="message1">Mensagem 1 (Opcional)</label>
-            <input type="text" id="message1" maxlength="40">
-        </div>
-        <div class="form-group">
-            <label for="message2">Mensagem 2 (Opcional)</label>
-            <input type="text" id="message2" maxlength="40">
-        </div>
-        <button type="button" onclick="generateCNABHeaders()">Gerar Headers</button>
-    </form>
+    <div class="container">
+        <h2>HEADER</h2>
+        <form id="cnabForm">
+            <div class="form-group">
+                <label for="header-bankCode">Código do Banco</label>
+                <input type="text" id="header-bankCode" maxlength="3" required>
+            </div>
+            <div class="form-group">
+                <label for="header-companyName">Nome da Empresa</label>
+                <input type="text" id="header-companyName" maxlength="30" required>
+            </div>
+            <div class="form-group">
+                <label for="header-bankName">Nome do Banco</label>
+                <input type="text" id="header-bankName" maxlength="30" required>
+            </div>
+            <div class="form-group">
+                <label for="header-registrationNumber">Número de Inscrição da Empresa</label>
+                <input type="text" id="header-registrationNumber" maxlength="14" required>
+            </div>
+            <div class="form-group">
+                <label for="header-convenioCode">Código do Convênio</label>
+                <input type="text" id="header-convenioCode" maxlength="20">
+            </div>
+            <div class="form-group">
+                <label for="header-agency">Agência</label>
+                <input type="text" id="header-agency" maxlength="5" required>
+            </div>
+            <div class="form-group">
+                <label for="header-agencyDv">Dígito da Agência</label>
+                <input type="text" id="header-agencyDv" maxlength="1">
+            </div>
+            <div class="form-group">
+                <label for="header-account">Conta Corrente</label>
+                <input type="text" id="header-account" maxlength="12" required>
+            </div>
+            <div class="form-group">
+                <label for="header-accountDv">Dígito da Conta</label>
+                <input type="text" id="header-accountDv" maxlength="1">
+            </div>
+            <div class="form-group">
+                <label for="header-generationDate">Data de Geração</label>
+                <input type="date" id="header-generationDate" required>
+            </div>
+            <div class="form-group">
+                <label for="header-generationTime">Hora de Geração</label>
+                <input type="time" id="header-generationTime" required>
+            </div>
+            <div class="form-group">
+                <label for="header-layoutVersion">Versão do Layout</label>
+                <input type="text" id="header-layoutVersion" maxlength="3" value="084" required>
+            </div>
+            <div class="form-group">
+                <label for="header-message1">Mensagem 1 (Opcional)</label>
+                <input type="text" id="header-message1" maxlength="40">
+            </div>
+            <div class="form-group">
+                <label for="header-message2">Mensagem 2 (Opcional)</label>
+                <input type="text" id="header-message2" maxlength="40">
+            </div>
+        </form>
+    </div>
+
+    <div class="container">
+        <h2>Adicionar Beneficiário</h2>
+        <form id="beneficiaryForm">
+            <h3>Segmento A</h3>
+            <div class="form-group">
+                <label for="beneficiaryName">Nome do Beneficiário</label>
+                <input type="text" id="beneficiaryName" maxlength="30" required>
+            </div>
+            <div class="form-group">
+                <label for="beneficiaryBank">Banco do Beneficiário</label>
+                <input type="text" id="beneficiaryBank" maxlength="3" required>
+            </div>
+            <div class="form-group">
+                <label for="beneficiaryAgency">Agência do Beneficiário</label>
+                <input type="text" id="beneficiaryAgency" maxlength="5" required>
+            </div>
+            <div>
+                <label for="beneficiaryAgencyDv">Dígito da Agência do Beneficiário</label>
+                <input type="text" id="beneficiaryAgencyDv" maxlength="1">
+            </div>
+            <div class="form-group">
+                <label for="beneficiaryAccount">Conta Corrente do Beneficiário</label>
+                <input type="text" id="beneficiaryAccount" maxlength="12" required>
+            </div>
+            <div>
+                <label for="beneficiaryAccountDv">Dígito da Conta do Beneficiário</label>
+                <input type="text" id="beneficiaryAccountDv" maxlength="1">
+            </div>
+            <div class="form-group">
+                <label for="beneficiaryDate">Data do Pagamento do Beneficiário</label>
+                <input type="date" id="beneficiaryDate" required>
+            </div>
+            <div class="form-group">
+                <label for="beneficiaryValue">Valor (R$) do Beneficiário</label>
+                <input type="text" id="beneficiaryValue" required>
+            </div>
+
+            <h3>Segmento B</h3>
+            <div>
+                <label for="beneficiaryLogradouro">Logradouro</label>
+                <input type="text" id="beneficiaryLogradouro" required>
+            </div>
+            <div>
+                <label for="beneficiaryNumero">Número</label>
+                <input type="text" id="beneficiaryNumero" required>
+            </div>
+            <div>
+                <label for="beneficiaryComplemento">Complemento</label>
+                <input type="text" id="beneficiaryComplemento">
+            </div>
+            <div>
+                <label for="beneficiaryBairro">Bairro</label>
+                <input type="text" id="beneficiaryBairro" required>
+            </div>
+            <div>
+                <label for="beneficiaryCidade">Cidade</label>
+                <input type="text" id="beneficiaryCidade" required>
+            </div>
+            <div>
+                <label for="beneficiaryCep">CEP</label>
+                <input type="text" id="beneficiaryCep" required>
+            </div>
+            <div>
+                <label for="beneficiaryUf">UF</label>
+                <input type="text" id="beneficiaryUf" required>
+            </div>
+
+            <button type="button" onclick="addBeneficiary()">Adicionar Beneficiário</button>
+        </form>
+
+        <h3>Beneficiários Adicionados</h3>
+        <table id="beneficiariesTable">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Banco</th>
+                    <th>Agência</th>
+                    <th>Dígito Agência</th>
+                    <th>Conta</th>
+                    <th>Dígito Conta</th>
+                    <th>Data Pagamento</th>
+                    <th>Valor</th>
+                    <th>Logradouro</th>
+                    <th>Número</th>
+                    <th>Complemento</th>
+                    <th>Bairro</th>
+                    <th>Cidade</th>
+                    <th>CEP</th>
+                    <th>UF</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+    <button type="button" onclick="generateCNABHeaders()">Gerar Cnab240</button>
     <textarea id="output" readonly placeholder="Os headers CNAB aparecerão aqui..."></textarea>
 
     <script>
@@ -104,27 +202,27 @@
         }
 
         function generateCNABHeaders() {
-            const bankCode = padLeft(document.getElementById('bankCode').value, 3);
-            const companyName = padRight(document.getElementById('companyName').value.toUpperCase(), 30);
-            const bankName = padRight(document.getElementById('bankName').value.toUpperCase(), 30);
-            const registrationNumber = padLeft(document.getElementById('registrationNumber').value, 14);
-            const convenioCode = padRight(document.getElementById('convenioCode').value || '', 20);
-            const agency = padLeft(document.getElementById('agency').value, 5);
-            const agencyDv = padRight(document.getElementById('agencyDv').value || '', 1);
-            const account = padLeft(document.getElementById('account').value, 12);
-            const accountDv = padRight(document.getElementById('accountDv').value || '', 1);
+            const bankCode = padLeft(document.getElementById('header-bankCode').value, 3);
+            const companyName = padRight(document.getElementById('header-companyName').value.toUpperCase(), 30);
+            const bankName = padRight(document.getElementById('header-bankName').value.toUpperCase(), 30);
+            const registrationNumber = padLeft(document.getElementById('header-registrationNumber').value, 14);
+            const convenioCode = padRight(document.getElementById('header-convenioCode').value || '', 20);
+            const agency = padLeft(document.getElementById('header-agency').value, 5);
+            const agencyDv = padRight(document.getElementById('header-agencyDv').value || '', 1);
+            const account = padLeft(document.getElementById('header-account').value, 12);
+            const accountDv = padRight(document.getElementById('header-accountDv').value || '', 1);
 
             // Corrigir data e hora de geração
-            const generationDateInput = document.getElementById('generationDate').value; // Formato ISO
+            const generationDateInput = document.getElementById('header-generationDate').value; // Formato ISO
             const generationDate = generationDateInput.split('-').reverse().join(''); // Converte para DDMMAAAA
 
-            const generationTime = document.getElementById('generationTime').value.replace(/:/g, '').padEnd(6, '0');
+            const generationTime = document.getElementById('header-generationTime').value.replace(/:/g, '').padEnd(6, '0');
 
-            const layoutVersion = padLeft(document.getElementById('layoutVersion').value, 3);
+            const layoutVersion = padLeft(document.getElementById('header-layoutVersion').value, 3);
 
             // Mensagens alinhadas à direita, preenchidas com espaços
-            const message1 = padLeft(document.getElementById('message1').value || '', 48, ' '); // 40 posições
-            const message2 = padLeft(document.getElementById('message2').value || '', 48, ' '); // 40 posições
+            const message1 = padLeft(document.getElementById('header-message1').value || '', 48, ' '); // 40 posições
+            const message2 = padLeft(document.getElementById('header-message2').value || '', 48, ' '); // 40 posições
 
             // Header do Arquivo
             const headerArquivo = `${bankCode}00000         215952971000109${convenioCode}${agency}${agencyDv}${account}${accountDv} ${companyName}${bankName}${padRight('', 10)}1${generationDate}${generationTime}${padLeft('232', 6)}${layoutVersion}01600${padRight('', 20)}${padRight('', 20)}${padRight('', 29)}`;
