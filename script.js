@@ -1,6 +1,6 @@
 function completeAlfa(str, length) {
   //TODO fazer a logica de jogar o que ta escrito em alfa para a esquerda e completar a direita com espacos em branco
-  return str.padEnd(length, " ");
+  return (str.padEnd(length, " ")).toUpperCase();
 }
 
 function completeNum(str, length) {
