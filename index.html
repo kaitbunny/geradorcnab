@@ -62,12 +62,33 @@
                 <input type="text" id="header-layoutVersion" maxlength="3" value="084" required>
             </div>
             <div class="form-group">
-                <label for="header-message1">Mensagem 1 (Opcional)</label>
-                <input type="text" id="header-message1" maxlength="40">
+                <label for="header-message">Mensagem (Opcional)</label>
+                <input type="text" id="header-message" maxlength="40">
+            </div>
+            <h3>Endereço da empresa</h3>
+            <div class="form-group">
+                <label for="header-logradouro">Logradouro</label>
+                <input type="text" id="header-logradouro" required maxlength="30">
             </div>
             <div class="form-group">
-                <label for="header-message2">Mensagem 2 (Opcional)</label>
-                <input type="text" id="header-message2" maxlength="40">
+                <label for="header-numero">Número</label>
+                <input type="num" id="header-numero" required maxlength="5">
+            </div>
+            <div class="form-group">
+                <label for="header-complemento">Complemento</label>
+                <input type="text" id="header-complemento" maxlength="15">
+            </div>
+            <div class="form-group">
+                <label for="header-cidade">Cidade</label>
+                <input type="text" id="header-cidade" required maxlength="20">
+            </div>
+            <div class="form-group">
+                <label for="header-cep">CEP</label>
+                <input type="text" id="header-cep" required maxlength="8">
+            </div>
+            <div class="for-group">
+                <label for="header-uf">UF</label>
+                <input type="text" id="header-uf" required maxlength="2">
             </div>
         </form>
     </div>
@@ -108,31 +129,31 @@
             <h3>Segmento B</h3>
             <div>
                 <label for="beneficiaryLogradouro">Logradouro</label>
-                <input type="text" id="beneficiaryLogradouro" required>
+                <input type="text" id="beneficiaryLogradouro" required maxlength="30">
             </div>
             <div>
                 <label for="beneficiaryNumero">Número</label>
-                <input type="text" id="beneficiaryNumero" required>
+                <input type="text" id="beneficiaryNumero" required maxlength="5">
             </div>
             <div>
                 <label for="beneficiaryComplemento">Complemento</label>
-                <input type="text" id="beneficiaryComplemento">
+                <input type="text" id="beneficiaryComplemento" maxlength="15">
             </div>
             <div>
                 <label for="beneficiaryBairro">Bairro</label>
-                <input type="text" id="beneficiaryBairro" required>
+                <input type="text" id="beneficiaryBairro" required maxlength="15">
             </div>
             <div>
                 <label for="beneficiaryCidade">Cidade</label>
-                <input type="text" id="beneficiaryCidade" required>
+                <input type="text" id="beneficiaryCidade" required maxlength="20">
             </div>
             <div>
                 <label for="beneficiaryCep">CEP</label>
-                <input type="text" id="beneficiaryCep" required>
+                <input type="text" id="beneficiaryCep" required maxlength="8">
             </div>
             <div>
                 <label for="beneficiaryUf">UF</label>
-                <input type="text" id="beneficiaryUf" required>
+                <input type="text" id="beneficiaryUf" required maxlength="2">
             </div>
 
             <button type="button" onclick="addBeneficiary()">Adicionar Beneficiário</button>

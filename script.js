@@ -19,7 +19,10 @@ function addBeneficiary() {
     ),
     bank: completeNum(document.getElementById("beneficiaryBank").value, 3),
     agency: completeNum(document.getElementById("beneficiaryAgency").value, 5),
-    account: completeNum(document.getElementById("beneficiaryAccount").value, 12),
+    account: completeNum(
+      document.getElementById("beneficiaryAccount").value,
+      12
+    ),
     accountDv: completeNum(
       document.getElementById("beneficiaryAccountDv").value,
       1
@@ -44,8 +47,14 @@ function addBeneficiary() {
       document.getElementById("beneficiaryComplemento").value,
       15
     ),
-    bairro: completeAlfa(document.getElementById("beneficiaryBairro").value, 15),
-    cidade: completeAlfa(document.getElementById("beneficiaryCidade").value, 20),
+    bairro: completeAlfa(
+      document.getElementById("beneficiaryBairro").value,
+      15
+    ),
+    cidade: completeAlfa(
+      document.getElementById("beneficiaryCidade").value,
+      20
+    ),
     cep: completeAlfa(document.getElementById("beneficiaryCep").value, 8),
     uf: completeAlfa(document.getElementById("beneficiaryUf").value, 2),
   };
@@ -121,16 +130,31 @@ function generateCNABHeaders() {
     3
   );
 
-  const message1 = completeAlfa(
-    document.getElementById("header-message1").value,
-    48,
-    " "
+  const message = completeAlfa(
+    document.getElementById("header-message").value,
+    40
   );
-  const message2 = completeAlfa(
-    document.getElementById("header-message2").value,
-    48,
-    " "
+
+  const logradouro = completeAlfa(
+    document.getElementById("header-logradouro").value,
+    30
   );
+
+  const numero = completeNum(document.getElementById("header-numero").value, 5);
+
+  const complemento = completeAlfa(
+    document.getElementById("header-complemento").value,
+    15
+  );
+
+  const cidade = completeAlfa(
+    document.getElementById("header-cidade").value,
+    20
+  );
+
+  const cep = completeAlfa(document.getElementById("header-cep").value, 8);
+
+  const uf = completeAlfa(document.getElementById("header-uf").value, 2);
 
   const headerArquivo = `${bankCode}00000         2${registrationNumber}${convenioCode}${agency}${agencyDv}${account}${accountDv} ${companyName}${bankName}${completeAlfa(
     "",
@@ -138,14 +162,11 @@ function generateCNABHeaders() {
   )}1${generationDate}${generationTime}${completeNum(
     "232",
     6
-  )}${layoutVersion}01600${completeAlfa("", 20)}${completeAlfa("", 20)}${completeAlfa(
-    "",
-    29
-  )}`;
-  const headerLote = `${bankCode}00011C3001045 2${registrationNumber}${convenioCode}${agency}${agencyDv}${account}${accountDv} ${companyName}${message1}${message2}${completeAlfa(
+  )}${layoutVersion}01600${completeAlfa("", 20)}${completeAlfa(
     "",
     20
-  )}${completeAlfa("", 8)}${completeAlfa("", 14)}`;
+  )}${completeAlfa("", 29)}`;
+  const headerLote = `${bankCode}00011C3001045 2${registrationNumber}${convenioCode}${agency}${agencyDv}${account}${accountDv} ${companyName}${message}${logradouro}${numero}${complemento}${cidade}${cep}${uf}${completeAlfa("", 8)}${completeAlfa("", 10)}`;
 
   return `${headerArquivo}\n${headerLote}`;
 }
@@ -160,19 +181,28 @@ function generateSegmentoB() {}
 
 //TODO dividir essa logica de gerar os segmentos entre os segmentos A e B
 function generateSegments() {
-  const bankCode = completeNum(document.getElementById("header-bankCode").value, 3);
+  const bankCode = completeNum(
+    document.getElementById("header-bankCode").value,
+    3
+  );
   return beneficiaries
     .map((beneficiary, index) => {
-      const segmentA = `${bankCode}00013${completeNum((index + 1).toString(), 5)}A${
-        beneficiary.bank
-      }${beneficiary.agency}${beneficiary.account}${beneficiary.accountDv} ${
-        beneficiary.name
-      }${beneficiary.paymentDate}${beneficiary.value}${completeAlfa("", 58)}`;
-      const segmentB = `${bankCode}00013${completeNum((index + 1).toString(), 5)}B${
-        beneficiary.logradouro
-      }${beneficiary.numero}${beneficiary.complemento}${beneficiary.bairro}${
-        beneficiary.cidade
-      }${beneficiary.cep}${beneficiary.uf}${completeAlfa("", 74)}`;
+      const segmentA = `${bankCode}00013${completeNum(
+        (index + 1).toString(),
+        5
+      )}A${beneficiary.bank}${beneficiary.agency}${beneficiary.account}${
+        beneficiary.accountDv
+      } ${beneficiary.name}${beneficiary.paymentDate}${
+        beneficiary.value
+      }${completeAlfa("", 58)}`;
+      const segmentB = `${bankCode}00013${completeNum(
+        (index + 1).toString(),
+        5
+      )}B${beneficiary.logradouro}${beneficiary.numero}${
+        beneficiary.complemento
+      }${beneficiary.bairro}${beneficiary.cidade}${beneficiary.cep}${
+        beneficiary.uf
+      }${completeAlfa("", 74)}`;
       return `${segmentA}\n${segmentB}`;
     })
     .join("\n");
