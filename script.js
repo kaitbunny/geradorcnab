@@ -8,6 +8,10 @@ function completeNum(str, length) {
   return str.padStart(length, "0");
 }
 
+function fillWithSpaces(length) {
+    return " ".repeat(length);
+}
+
 let beneficiaries = []; // Lista para armazenar beneficiários
 
 function addBeneficiary() {
@@ -75,24 +79,15 @@ function addBeneficiary() {
   tableBody.appendChild(row);
 }
 
-function generateHeaderArquivo() {}
-
-function generateHeaderLote() {}
-
-//TODO dividir essa logica de gerar os headers entre os headers de arquivo e lote
 function generateCNABHeaders() {
+  //header do arquivo
   const bankCode = completeNum(
     document.getElementById("header-bankCode").value,
     3
   );
-  const companyName = completeAlfa(
-    document.getElementById("header-companyName").value.toUpperCase(),
-    30
-  );
-  const bankName = completeAlfa(
-    document.getElementById("header-bankName").value.toUpperCase(),
-    30
-  );
+  const batch = '0000';
+  const recordType = '0';
+  const registrationType = '2';
   const registrationNumber = completeNum(
     document.getElementById("header-registrationNumber").value,
     14
@@ -114,59 +109,58 @@ function generateCNABHeaders() {
     document.getElementById("header-accountDv").value,
     1
   );
-
+  const companyName = completeAlfa(
+    document.getElementById("header-companyName").value.toUpperCase(),
+    30
+  );
+  const bankName = completeAlfa(
+    document.getElementById("header-bankName").value.toUpperCase(),
+    30
+  );
+  const shippingCode = '1';
   const generationDateInput = document.getElementById(
     "header-generationDate"
   ).value;
   const generationDate = generationDateInput.split("-").reverse().join("");
-
   const generationTime = document
     .getElementById("header-generationTime")
     .value.replace(/:/g, "")
     .padEnd(6, "0");
+  const sequentialNumber = completeNum('1', 6);
+  const layoutVersion = '084';
+  const density = completeNum('1600', 5);
 
-  const layoutVersion = completeNum(
-    document.getElementById("header-layoutVersion").value,
-    3
-  );
-
+  //header do lote
+  const serviceBatchHeader = completeNum('1', 4);
+  const headerRegisterType = '1';
+  const movementType = 'C';
+  const serviceType = '30';
+  const serviceForm = '01'; //credito em conta corrente
+  const layoutBatchVersion = '043';
   const message = completeAlfa(
     document.getElementById("header-message").value,
     40
   );
 
+  //endereço da empresa
   const logradouro = completeAlfa(
     document.getElementById("header-logradouro").value,
     30
   );
-
   const numero = completeNum(document.getElementById("header-numero").value, 5);
-
   const complemento = completeAlfa(
     document.getElementById("header-complemento").value,
     15
   );
-
   const cidade = completeAlfa(
     document.getElementById("header-cidade").value,
     20
   );
-
   const cep = completeAlfa(document.getElementById("header-cep").value, 8);
-
   const uf = completeAlfa(document.getElementById("header-uf").value, 2);
 
-  const headerArquivo = `${bankCode}00000         2${registrationNumber}${convenioCode}${agency}${agencyDv}${account}${accountDv} ${companyName}${bankName}${completeAlfa(
-    "",
-    10
-  )}1${generationDate}${generationTime}${completeNum(
-    "232",
-    6
-  )}${layoutVersion}01600${completeAlfa("", 20)}${completeAlfa(
-    "",
-    20
-  )}${completeAlfa("", 29)}`;
-  const headerLote = `${bankCode}00011C3001045 2${registrationNumber}${convenioCode}${agency}${agencyDv}${account}${accountDv} ${companyName}${message}${logradouro}${numero}${complemento}${cidade}${cep}${uf}${completeAlfa("", 8)}${completeAlfa("", 10)}`;
+  const headerArquivo = `${bankCode}${batch}${recordType}${fillWithSpaces(9)}${registrationType}${registrationNumber}${convenioCode}${agency}${agencyDv}${account}${accountDv}${fillWithSpaces(1)}${companyName}${bankName}${fillWithSpaces(10)}${shippingCode}${generationDate}${generationTime}${sequentialNumber}${layoutVersion}${density}${fillWithSpaces(70)}`;
+  const headerLote = `${bankCode}${serviceBatchHeader}${headerRegisterType}${movementType}${serviceType}${serviceForm}${layoutBatchVersion}${fillWithSpaces(1)}${registrationType}${registrationNumber}${convenioCode}${agency}${agencyDv}${account}${accountDv}${fillWithSpaces(1)}${companyName}${message}${logradouro}${numero}${complemento}${cidade}${cep}${uf}${fillWithSpaces(18)}`;
 
   return `${headerArquivo}\n${headerLote}`;
 }
@@ -220,4 +214,8 @@ function generateCnab() {
 }
 
 //TODO implementar uma opcao de baixar arquivo txt do CNAB
+//TODO implementar uma funcionalidade que salva o header do cnab no local storage para futuras consultas
+//TODO implementar uma funcionalidade que busca headers ja salvos no local storage e preenche o formulario com os valores
+//TODO implementar uma funcionalidade que salva os beneficiarios no local storage para futuras consultas
+//TODO implementar uma funcionalidade que busca beneficiarios ja salvos no local storage e preenche a tabela com os valores
 document.getElementById("output").value = generateCnab();
