@@ -1,38 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CNAB Header Generator</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-        }
-        .form-group {
-            margin-bottom: 15px;
-        }
-        label {
-            display: block;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-        input {
-            width: 100%;
-            padding: 8px;
-            box-sizing: border-box;
-        }
-        textarea {
-            width: 100%;
-            height: 100px;
-            padding: 8px;
-            box-sizing: border-box;
-            margin-top: 15px;
-        }
-    </style>
+    <title>CNAB Generator</title>
+    <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-    <h1>CNAB Header Generator</h1>
+    <h1>CNAB Generator</h1>
     <div class="container">
         <h2>HEADER</h2>
         <form id="cnabForm">
@@ -179,97 +156,7 @@
     </div>
     <button type="button" onclick="generateCnab()">Gerar Cnab240</button>
     <textarea id="output" readonly placeholder="Os headers CNAB aparecerão aqui..."></textarea>
-
-    <script>
-        function padRight(str, length, char = ' ') {
-            return str.padEnd(length, char);
-        }
-
-        function padLeft(str, length, char = '0') {
-            return str.padStart(length, char);
-        }
-
-        let beneficiaries = []; // Lista para armazenar beneficiários
-    
-        function addBeneficiary() {
-            // Captura os valores do formulário
-            const beneficiary = {
-                name: padRight(document.getElementById('beneficiaryName').value.toUpperCase(), 30),
-                bank: padLeft(document.getElementById('beneficiaryBank').value, 3),
-                agency: padLeft(document.getElementById('beneficiaryAgency').value, 5),
-                account: padLeft(document.getElementById('beneficiaryAccount').value, 12),
-                accountDv: padRight(document.getElementById('beneficiaryAccountDv').value || '', 1),
-                paymentDate: document.getElementById('beneficiaryDate').value.split('-').reverse().join(''),
-                value: padLeft(parseInt(document.getElementById('beneficiaryValue').value * 100).toString(), 15),
-                logradouro: padRight(document.getElementById('beneficiaryLogradouro').value, 30),
-                numero: padRight(document.getElementById('beneficiaryNumero').value, 5),
-                complemento: padRight(document.getElementById('beneficiaryComplemento').value || '', 15),
-                bairro: padRight(document.getElementById('beneficiaryBairro').value, 15),
-                cidade: padRight(document.getElementById('beneficiaryCidade').value, 20),
-                cep: padLeft(document.getElementById('beneficiaryCep').value, 8),
-                uf: padRight(document.getElementById('beneficiaryUf').value, 2)
-            };
-    
-            beneficiaries.push(beneficiary);
-    
-            const tableBody = document.querySelector('#beneficiariesTable tbody');
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td>${beneficiary.name.trim()}</td>
-                <td>${beneficiary.bank}</td>
-                <td>${beneficiary.agency}</td>
-                <td>${beneficiary.account}</td>
-                <td>${beneficiary.accountDv}</td>
-                <td>${beneficiary.paymentDate}</td>
-                <td>${(parseInt(beneficiary.value) / 100).toFixed(2)}</td>
-            `;
-            tableBody.appendChild(row);
-        }
-    
-        function generateCNABHeaders() {
-            const bankCode = padLeft(document.getElementById('header-bankCode').value, 3);
-            const companyName = padRight(document.getElementById('header-companyName').value.toUpperCase(), 30);
-            const bankName = padRight(document.getElementById('header-bankName').value.toUpperCase(), 30);
-            const registrationNumber = padLeft(document.getElementById('header-registrationNumber').value, 14);
-            const convenioCode = padRight(document.getElementById('header-convenioCode').value || '', 20);
-            const agency = padLeft(document.getElementById('header-agency').value, 5);
-            const agencyDv = padRight(document.getElementById('header-agencyDv').value || '', 1);
-            const account = padLeft(document.getElementById('header-account').value, 12);
-            const accountDv = padRight(document.getElementById('header-accountDv').value || '', 1);
-
-            const generationDateInput = document.getElementById('header-generationDate').value;
-            const generationDate = generationDateInput.split('-').reverse().join('');
-
-            const generationTime = document.getElementById('header-generationTime').value.replace(/:/g, '').padEnd(6, '0');
-
-            const layoutVersion = padLeft(document.getElementById('header-layoutVersion').value, 3);
-
-            const message1 = padLeft(document.getElementById('header-message1').value || '', 48, ' ');
-            const message2 = padLeft(document.getElementById('header-message2').value || '', 48, ' ');
-
-            const headerArquivo = `${bankCode}00000         215952971000109${convenioCode}${agency}${agencyDv}${account}${accountDv} ${companyName}${bankName}${padRight('', 10)}1${generationDate}${generationTime}${padLeft('232', 6)}${layoutVersion}01600${padRight('', 20)}${padRight('', 20)}${padRight('', 29)}`;
-            const headerLote = `${bankCode}00011C3001045 215952971000109${convenioCode}${agency}${agencyDv}${account}${accountDv} ${companyName}${message1}${message2}${padRight('', 20)}${padRight('', 8)}${padRight('', 14)}`;
-
-            return `${headerArquivo}\n${headerLote}`;
-        }
-
-        function generateSegments() {
-            const bankCode = padLeft(document.getElementById('header-bankCode').value, 3);
-            return beneficiaries.map((beneficiary, index) => {
-                const segmentA = `${bankCode}00013${padLeft((index + 1++).toString(), 5)}A${beneficiary.bank}${beneficiary.agency}${beneficiary.account}${beneficiary.accountDv} ${beneficiary.name}${beneficiary.paymentDate}${beneficiary.value}${padRight('', 58)}`;
-                const segmentB = `${bankCode}00014${padLeft((index + 1).toString(), 5)}B${beneficiary.logradouro}${beneficiary.numero}${beneficiary.complemento}${beneficiary.bairro}${beneficiary.cidade}${beneficiary.cep}${beneficiary.uf}${padRight('', 74)}`;
-                return `${segmentA}\n${segmentB}`;
-            }).join('\n');
-        }
-
-        function generateCnab() {
-            const header = generateCNABHeaders();
-            const segments = generateSegments();
-            document.getElementById('output').value = `${header}\n${segments}`;
-        }
-
-        document.getElementById('output').value = generateCnab();
-        
-    </script>
+    <script src="script.js"></script>
 </body>
+
 </html>
