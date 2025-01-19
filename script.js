@@ -524,7 +524,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  document.querySelectorAll("input").forEach((input) => {
+  document.querySelectorAll("input.no-special").forEach((input) => {
     input.addEventListener("input", function () {
       this.value = this.value.replace(/[^a-zA-Z0-9 ]/g, "");
     });

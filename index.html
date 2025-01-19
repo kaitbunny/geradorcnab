@@ -30,11 +30,11 @@
                         </div>
                         <div class="col-12 col-sm-6 col-md-4">
                             <label for="header-companyName" class="form-label">Nome da Empresa</label>
-                            <input type="text" class="form-control" id="header-companyName" maxlength="30" required>
+                            <input type="text" class="form-control no-special" id="header-companyName" maxlength="30" required>
                         </div>
                         <div class="col-12 col-sm-6 col-md-4">
                             <label for="header-bankName" class="form-label">Nome do Banco</label>
-                            <input type="text" class="form-control" id="header-bankName" maxlength="30" required>
+                            <input type="text" class="form-control no-special" id="header-bankName" maxlength="30" required>
                         </div>
                     </div>
 
@@ -75,7 +75,7 @@
                         </div>
                         <div class="col-12 col-sm-8 col-md-2">
                             <label for="header-message" class="form-label">Mensagem</label>
-                            <input type="text" class="form-control" id="header-message" maxlength="40">
+                            <input type="text" class="form-control no-special" id="header-message" maxlength="40">
                         </div>
                     </div>
 
@@ -94,7 +94,7 @@
                     <div class="row g-3">
                         <div class="col-12 col-md-6">
                             <label for="header-logradouro" class="form-label">Logradouro</label>
-                            <input type="text" class="form-control" id="header-logradouro" required maxlength="30">
+                            <input type="text" class="form-control no-special" id="header-logradouro" required maxlength="30">
                         </div>
                         <div class="col-6 col-md-3">
                             <label for="header-numero" class="form-label">Número</label>
@@ -102,14 +102,14 @@
                         </div>
                         <div class="col-6 col-md-3">
                             <label for="header-complemento" class="form-label">Complemento</label>
-                            <input type="text" class="form-control" id="header-complemento" maxlength="15">
+                            <input type="text" class="form-control no-special" id="header-complemento" maxlength="15">
                         </div>
                     </div>
 
                     <div class="row g-3 mt-2">
                         <div class="col-12 col-md-4">
                             <label for="header-cidade" class="form-label">Cidade</label>
-                            <input type="text" class="form-control" id="header-cidade" required maxlength="20">
+                            <input type="text" class="form-control no-special" id="header-cidade" required maxlength="20">
                         </div>
                         <div class="col-6 col-md-4">
                             <label for="header-cep" class="form-label">CEP</label>
@@ -117,7 +117,7 @@
                         </div>
                         <div class="col-6 col-md-4">
                             <label for="header-uf" class="form-label">UF</label>
-                            <input type="text" class="form-control" id="header-uf" required maxlength="2">
+                            <input type="text" class="form-control no-special" id="header-uf" required maxlength="2">
                         </div>
                     </div>
                 </form>
@@ -140,7 +140,7 @@
                     <div class="row g-3">
                         <div class="col-12 col-sm-6 col-md-4">
                             <label for="beneficiaryName" class="form-label">Nome</label>
-                            <input type="text" class="form-control" id="beneficiaryName" maxlength="30" required>
+                            <input type="text" class="form-control no-special" id="beneficiaryName" maxlength="30" required>
                         </div>
                         <div class="col-6 col-sm-3 col-md-2">
                             <label for="beneficiaryRegistrationType" class="form-label">Tipo de Inscrição</label>
@@ -186,7 +186,7 @@
                         </div>
                         <div class="col-12 col-sm-6">
                             <label for="beneficiaryValue" class="form-label">Valor (R$)</label> <!--TODO colocar a mascara de reais e tratar para aceitar centavos no lugar de so numeros inteiros-->
-                            <input type="text" class="form-control" id="beneficiaryValue" required>
+                            <input type="text" class="form-control numeric-only" id="beneficiaryValue" required>
                         </div>
                     </div>
 
@@ -194,7 +194,7 @@
                     <div class="row g-3">
                         <div class="col-12 col-md-4">
                             <label for="beneficiaryLogradouro" class="form-label">Logradouro</label>
-                            <input type="text" class="form-control" id="beneficiaryLogradouro" required maxlength="30">
+                            <input type="text" class="form-control no-special" id="beneficiaryLogradouro" required maxlength="30">
                         </div>
                         <div class="col-6 col-md-2">
                             <label for="beneficiaryNumero" class="form-label">Número</label>
@@ -202,18 +202,18 @@
                         </div>
                         <div class="col-6 col-md-3">
                             <label for="beneficiaryComplemento" class="form-label">Complemento</label>
-                            <input type="text" class="form-control" id="beneficiaryComplemento" maxlength="15">
+                            <input type="text" class="form-control no-special" id="beneficiaryComplemento" maxlength="15">
                         </div>
                         <div class="col-12 col-md-3">
                             <label for="beneficiaryBairro" class="form-label">Bairro</label>
-                            <input type="text" class="form-control" id="beneficiaryBairro" required maxlength="15">
+                            <input type="text" class="form-control no-special" id="beneficiaryBairro" required maxlength="15">
                         </div>
                     </div>
 
                     <div class="row g-3 mt-2">
                         <div class="col-12 col-md-4">
                             <label for="beneficiaryCidade" class="form-label">Cidade</label>
-                            <input type="text" class="form-control" id="beneficiaryCidade" required maxlength="20">
+                            <input type="text" class="form-control no-special" id="beneficiaryCidade" required maxlength="20">
                         </div>
                         <div class="col-6 col-md-4">
                             <label for="beneficiaryCep" class="form-label">CEP</label>
@@ -221,7 +221,7 @@
                         </div>
                         <div class="col-6 col-md-4">
                             <label for="beneficiaryUf" class="form-label">UF</label>
-                            <input type="text" class="form-control" id="beneficiaryUf" required maxlength="2">
+                            <input type="text" class="form-control no-special" id="beneficiaryUf" required maxlength="2">
                         </div>
                     </div>
 
