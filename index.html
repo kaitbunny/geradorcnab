@@ -2,210 +2,265 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CNAB Generator</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CNAB240 Generator</title>
+  <!-- Link do Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css"/>
 </head>
 
 <body>
-    <h1>CNAB Generator</h1>
-    <div class="container">
-        <div style="display: flex; align-items: center; justify-content: space-between;">
-            <h2>HEADER</h2>
-            <button type="button" onclick="listSavedHeaders()">Listar Headers Salvos</button>
-        </div>
+  <div class="container my-4">
+    <h1 class="mb-4 text-center">CNAB240 Generator</h1>
+
+    <!-- Seção Header -->
+    <div class="card mb-5">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <h2 class="h5 mb-0">HEADER</h2>
+        <button type="button" class="btn btn-secondary" onclick="listSavedHeaders()">Listar Headers Salvos</button>
+      </div>
+      <div class="card-body">
         <form id="cnabForm">
-            <div class="form-group">
-                <label for="header-bankCode">Código do Banco</label>
-                <input type="text" id="header-bankCode" maxlength="3" required>
+          <div class="row g-3">
+            <div class="col-12 col-sm-6 col-md-4">
+              <label for="header-bankCode" class="form-label">Código do Banco</label>
+              <input type="text" class="form-control" id="header-bankCode" maxlength="3" required>
             </div>
-            <div class="form-group">
-                <label for="header-companyName">Nome da Empresa</label>
-                <input type="text" id="header-companyName" maxlength="30" required>
+            <div class="col-12 col-sm-6 col-md-4">
+              <label for="header-companyName" class="form-label">Nome da Empresa</label>
+              <input type="text" class="form-control" id="header-companyName" maxlength="30" required>
             </div>
-            <div class="form-group">
-                <label for="header-bankName">Nome do Banco</label>
-                <input type="text" id="header-bankName" maxlength="30" required>
+            <div class="col-12 col-sm-6 col-md-4">
+              <label for="header-bankName" class="form-label">Nome do Banco</label>
+              <input type="text" class="form-control" id="header-bankName" maxlength="30" required>
             </div>
-            <div class="form-group">
-                <label for="header-registrationNumber">Número de Inscrição da Empresa</label>
-                <input type="text" id="header-registrationNumber" maxlength="14" required>
+          </div>
+
+          <div class="row g-3 mt-2">
+            <div class="col-12 col-sm-6 col-md-4">
+              <label for="header-registrationNumber" class="form-label">Número de Inscrição da Empresa</label>
+              <input type="text" class="form-control" id="header-registrationNumber" maxlength="14" required>
             </div>
-            <div class="form-group">
-                <label for="header-convenioCode">Código do Convênio</label>
-                <input type="text" id="header-convenioCode" maxlength="20">
+            <div class="col-12 col-sm-6 col-md-4">
+              <label for="header-convenioCode" class="form-label">Código do Convênio</label>
+              <input type="text" class="form-control" id="header-convenioCode" maxlength="20">
             </div>
-            <div class="form-group">
-                <label for="header-agency">Agência</label>
-                <input type="text" id="header-agency" maxlength="5" required>
+            <div class="col-12 col-sm-6 col-md-4">
+              <label for="header-agency" class="form-label">Agência</label>
+              <input type="text" class="form-control" id="header-agency" maxlength="5" required>
             </div>
-            <div class="form-group">
-                <label for="header-agencyDv">Dígito da Agência</label>
-                <input type="text" id="header-agencyDv" maxlength="1">
+          </div>
+
+          <div class="row g-3 mt-2">
+            <div class="col-12 col-sm-4 col-md-2">
+              <label for="header-agencyDv" class="form-label">Dígito da Agência</label>
+              <input type="text" class="form-control" id="header-agencyDv" maxlength="1">
             </div>
-            <div class="form-group">
-                <label for="header-account">Conta Corrente</label>
-                <input type="text" id="header-account" maxlength="12" required>
+            <div class="col-12 col-sm-8 col-md-4">
+              <label for="header-account" class="form-label">Conta Corrente</label>
+              <input type="text" class="form-control" id="header-account" maxlength="12" required>
             </div>
-            <div class="form-group">
-                <label for="header-accountDv">Dígito da Conta</label>
-                <input type="text" id="header-accountDv" maxlength="1">
+            <div class="col-12 col-sm-4 col-md-2">
+              <label for="header-accountDv" class="form-label">Dígito da Conta</label>
+              <input type="text" class="form-control" id="header-accountDv" maxlength="1">
             </div>
-            <div class="form-group">
-                <label for="header-generationDate">Data de Geração</label>
-                <input type="date" id="header-generationDate" required>
+            <div class="col-12 col-sm-4 col-md-2">
+              <label for="header-layoutVersion" class="form-label">Versão do Layout</label>
+              <input type="text" class="form-control" id="header-layoutVersion" maxlength="3" value="084" required>
             </div>
-            <div class="form-group">
-                <label for="header-generationTime">Hora de Geração</label>
-                <input type="time" id="header-generationTime" required>
+            <div class="col-12 col-sm-8 col-md-2">
+              <label for="header-message" class="form-label">Mensagem</label>
+              <input type="text" class="form-control" id="header-message" maxlength="40">
             </div>
-            <div class="form-group">
-                <label for="header-layoutVersion">Versão do Layout</label>
-                <input type="text" id="header-layoutVersion" maxlength="3" value="084" required>
+          </div>
+
+          <div class="row g-3 mt-2">
+            <div class="col-12 col-sm-6">
+              <label for="header-generationDate" class="form-label">Data de Geração</label>
+              <input type="date" class="form-control" id="header-generationDate" required>
             </div>
-            <div class="form-group">
-                <label for="header-message">Mensagem (Opcional)</label>
-                <input type="text" id="header-message" maxlength="40">
+            <div class="col-12 col-sm-6">
+              <label for="header-generationTime" class="form-label">Hora de Geração</label>
+              <input type="time" class="form-control" id="header-generationTime" required>
             </div>
-            <h3>Endereço da empresa</h3>
-            <div class="form-group">
-                <label for="header-logradouro">Logradouro</label>
-                <input type="text" id="header-logradouro" required maxlength="30">
+          </div>
+
+          <h3 class="mt-4">Endereço da empresa</h3>
+          <div class="row g-3">
+            <div class="col-12 col-md-6">
+              <label for="header-logradouro" class="form-label">Logradouro</label>
+              <input type="text" class="form-control" id="header-logradouro" required maxlength="30">
             </div>
-            <div class="form-group">
-                <label for="header-numero">Número</label>
-                <input type="num" id="header-numero" required maxlength="5">
+            <div class="col-6 col-md-3">
+              <label for="header-numero" class="form-label">Número</label>
+              <input type="text" class="form-control" id="header-numero" required maxlength="5">
             </div>
-            <div class="form-group">
-                <label for="header-complemento">Complemento</label>
-                <input type="text" id="header-complemento" maxlength="15">
+            <div class="col-6 col-md-3">
+              <label for="header-complemento" class="form-label">Complemento</label>
+              <input type="text" class="form-control" id="header-complemento" maxlength="15">
             </div>
-            <div class="form-group">
-                <label for="header-cidade">Cidade</label>
-                <input type="text" id="header-cidade" required maxlength="20">
+          </div>
+
+          <div class="row g-3 mt-2">
+            <div class="col-12 col-md-4">
+              <label for="header-cidade" class="form-label">Cidade</label>
+              <input type="text" class="form-control" id="header-cidade" required maxlength="20">
             </div>
-            <div class="form-group">
-                <label for="header-cep">CEP</label>
-                <input type="text" id="header-cep" required maxlength="8">
+            <div class="col-6 col-md-4">
+              <label for="header-cep" class="form-label">CEP</label>
+              <input type="text" class="form-control" id="header-cep" required maxlength="8">
             </div>
-            <div class="for-group">
-                <label for="header-uf">UF</label>
-                <input type="text" id="header-uf" required maxlength="2">
+            <div class="col-6 col-md-4">
+              <label for="header-uf" class="form-label">UF</label>
+              <input type="text" class="form-control" id="header-uf" required maxlength="2">
             </div>
+          </div>
         </form>
-        <button type="button" onclick="saveHeader()">Salvar Header</button>
+        <button type="button" class="btn btn-success mt-3" onclick="saveHeader()">Salvar Header</button>
+      </div>
     </div>
 
-    <hr>
+    <hr class="my-5">
 
-    <div class="container">
-        <div style="display: flex; align-items: center; justify-content: space-between;">
-            <h2>Adicionar Beneficiário</h2>
-            <button type="button" onclick="listSavedBeneficiaries()">Listar Beneficiários Salvos</button>
-        </div>
+    <!-- Seção Beneficiário -->
+    <div class="card mb-5">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <h2 class="h5 mb-0">Adicionar Beneficiário</h2>
+        <button type="button" class="btn btn-secondary" onclick="listSavedBeneficiaries()">Listar Beneficiários Salvos</button>
+      </div>
+      <div class="card-body">
         <form id="beneficiaryForm">
-            <h3>Segmento A</h3>
-            <div class="form-group">
-                <label for="beneficiaryName">Nome do Beneficiário</label>
-                <input type="text" id="beneficiaryName" maxlength="30" required>
+          <h3>Segmento A</h3>
+          <div class="row g-3">
+            <div class="col-12 col-sm-6 col-md-4">
+              <label for="beneficiaryName" class="form-label">Nome do Beneficiário</label>
+              <input type="text" class="form-control" id="beneficiaryName" maxlength="30" required>
             </div>
-            <div class="form-group">
-                <label for="beneficiaryRegistrationType">Tipo de Inscrição do Beneficiário</label>
-                <select id="beneficiaryRegistrationType" required>
-                    <option value="1">CPF</option>
-                    <option value="2">CNPJ</option>
-                </select>
+            <div class="col-6 col-sm-3 col-md-2">
+              <label for="beneficiaryRegistrationType" class="form-label">Tipo de Inscrição</label>
+              <select id="beneficiaryRegistrationType" class="form-select" required>
+                <option value="1">CPF</option>
+                <option value="2">CNPJ</option>
+              </select>
             </div>
-            <div class="form-group">
-                <label for="beneficiaryRegistrationNumber">Número de Inscrição do Beneficiário</label>
-                <input type="text" id="beneficiaryRegistrationNumber" maxlength="14" required>
+            <div class="col-6 col-sm-3 col-md-2">
+              <label for="beneficiaryRegistrationNumber" class="form-label">Número de Inscrição</label>
+              <input type="text" class="form-control" id="beneficiaryRegistrationNumber" maxlength="14" required>
             </div>
-            <div class="form-group">
-                <label for="beneficiaryBank">Banco do Beneficiário</label>
-                <input type="text" id="beneficiaryBank" maxlength="3" required>
-            </div>
-            <div class="form-group">
-                <label for="beneficiaryAgency">Agência do Beneficiário</label>
-                <input type="text" id="beneficiaryAgency" maxlength="5" required>
-            </div>
-            <div class="form-group">
-                <label for="beneficiaryAgencyDv">Dígito da Agência do Beneficiário</label>
-                <input type="text" id="beneficiaryAgencyDv" maxlength="1">
-            </div>
-            <div class="form-group">
-                <label for="beneficiaryAccount">Conta Corrente do Beneficiário</label>
-                <input type="text" id="beneficiaryAccount" maxlength="12" required>
-            </div>
-            <div>
-                <label for="beneficiaryAccountDv">Dígito da Conta do Beneficiário</label>
-                <input type="text" id="beneficiaryAccountDv" maxlength="1">
-            </div>
-            <div class="form-group">
-                <label for="beneficiaryDate">Data do Pagamento do Beneficiário</label>
-                <input type="date" id="beneficiaryDate" required>
-            </div>
-            <div class="form-group">
-                <label for="beneficiaryValue">Valor (R$) do Beneficiário</label>
-                <input type="text" id="beneficiaryValue" required>
-            </div>
+          </div>
 
-            <h3>Segmento B</h3>
-            <div>
-                <label for="beneficiaryLogradouro">Logradouro</label>
-                <input type="text" id="beneficiaryLogradouro" required maxlength="30">
+          <div class="row g-3 mt-2">
+            <div class="col-4 col-sm-2">
+              <label for="beneficiaryBank" class="form-label">Banco</label>
+              <input type="text" class="form-control" id="beneficiaryBank" maxlength="3" required>
             </div>
-            <div>
-                <label for="beneficiaryNumero">Número</label>
-                <input type="text" id="beneficiaryNumero" required maxlength="5">
+            <div class="col-4 col-sm-2">
+              <label for="beneficiaryAgency" class="form-label">Agência</label>
+              <input type="text" class="form-control" id="beneficiaryAgency" maxlength="5" required>
             </div>
-            <div>
-                <label for="beneficiaryComplemento">Complemento</label>
-                <input type="text" id="beneficiaryComplemento" maxlength="15">
+            <div class="col-4 col-sm-2">
+              <label for="beneficiaryAgencyDv" class="form-label">Dígito</label>
+              <input type="text" class="form-control" id="beneficiaryAgencyDv" maxlength="1">
             </div>
-            <div>
-                <label for="beneficiaryBairro">Bairro</label>
-                <input type="text" id="beneficiaryBairro" required maxlength="15">
+            <div class="col-6 col-sm-3">
+              <label for="beneficiaryAccount" class="form-label">Conta Corrente</label>
+              <input type="text" class="form-control" id="beneficiaryAccount" maxlength="12" required>
             </div>
-            <div>
-                <label for="beneficiaryCidade">Cidade</label>
-                <input type="text" id="beneficiaryCidade" required maxlength="20">
+            <div class="col-6 col-sm-1">
+              <label for="beneficiaryAccountDv" class="form-label">Dígito</label>
+              <input type="text" class="form-control" id="beneficiaryAccountDv" maxlength="1">
             </div>
-            <div>
-                <label for="beneficiaryCep">CEP</label>
-                <input type="text" id="beneficiaryCep" required maxlength="8">
-            </div>
-            <div>
-                <label for="beneficiaryUf">UF</label>
-                <input type="text" id="beneficiaryUf" required maxlength="2">
-            </div>
+          </div>
 
-            <div style="display: flex; align-items: center; justify-content: space-between;">
-                <button type="button" onclick="addBeneficiary()">Adicionar Beneficiário</button>
-                <button type="button" onclick="saveBeneficiaryData()">Salvar Beneficiário</button>
+          <div class="row g-3 mt-2">
+            <div class="col-12 col-sm-6">
+              <label for="beneficiaryDate" class="form-label">Data do Pagamento</label>
+              <input type="date" class="form-control" id="beneficiaryDate" required>
             </div>
+            <div class="col-12 col-sm-6">
+              <label for="beneficiaryValue" class="form-label">Valor (R$)</label>
+              <input type="text" class="form-control" id="beneficiaryValue" required>
+            </div>
+          </div>
+
+          <h3 class="mt-4">Segmento B</h3>
+          <div class="row g-3">
+            <div class="col-12 col-md-4">
+              <label for="beneficiaryLogradouro" class="form-label">Logradouro</label>
+              <input type="text" class="form-control" id="beneficiaryLogradouro" required maxlength="30">
+            </div>
+            <div class="col-6 col-md-2">
+              <label for="beneficiaryNumero" class="form-label">Número</label>
+              <input type="text" class="form-control" id="beneficiaryNumero" required maxlength="5">
+            </div>
+            <div class="col-6 col-md-3">
+              <label for="beneficiaryComplemento" class="form-label">Complemento</label>
+              <input type="text" class="form-control" id="beneficiaryComplemento" maxlength="15">
+            </div>
+            <div class="col-12 col-md-3">
+              <label for="beneficiaryBairro" class="form-label">Bairro</label>
+              <input type="text" class="form-control" id="beneficiaryBairro" required maxlength="15">
+            </div>
+          </div>
+
+          <div class="row g-3 mt-2">
+            <div class="col-12 col-md-4">
+              <label for="beneficiaryCidade" class="form-label">Cidade</label>
+              <input type="text" class="form-control" id="beneficiaryCidade" required maxlength="20">
+            </div>
+            <div class="col-6 col-md-4">
+              <label for="beneficiaryCep" class="form-label">CEP</label>
+              <input type="text" class="form-control" id="beneficiaryCep" required maxlength="8">
+            </div>
+            <div class="col-6 col-md-4">
+              <label for="beneficiaryUf" class="form-label">UF</label>
+              <input type="text" class="form-control" id="beneficiaryUf" required maxlength="2">
+            </div>
+          </div>
+
+          <div class="d-flex flex-column flex-sm-row justify-content-between mt-4 gap-2">
+            <button type="button" class="btn btn-primary flex-fill" onclick="addBeneficiary()">Adicionar Beneficiário</button>
+            <button type="button" class="btn btn-success flex-fill" onclick="saveBeneficiaryData()">Salvar Beneficiário</button>
+          </div>
         </form>
-
-        <h3>Beneficiários Adicionados</h3>
-        <table id="beneficiariesTable">
-            <thead>
-                <tr>
-                    <th>Nome</th>
-                    <th>Banco</th>
-                    <th>Agência</th>
-                    <th>Dígito Agência</th>
-                    <th>Conta</th>
-                    <th>Dígito Conta</th>
-                    <th>Data Pagamento</th>
-                    <th>Valor</th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
+      </div>
     </div>
-    <button type="button" onclick="generateCnab()">Gerar Cnab240</button>
-    <textarea id="output" readonly placeholder="Os headers CNAB aparecerão aqui..."></textarea>
-    <script src="script.js"></script>
+
+    <!-- Tabela de Beneficiários Adicionados -->
+    <div class="card mb-5">
+      <div class="card-header">
+        <h3 class="h5 mb-0">Beneficiários Adicionados</h3>
+      </div>
+      <div class="card-body">
+        <table id="beneficiariesTable" class="table table-bordered table-striped">
+          <thead class="table-light">
+            <tr>
+              <th>Nome</th>
+              <th>Banco</th>
+              <th>Agência</th>
+              <th>Dígito Agência</th>
+              <th>Conta</th>
+              <th>Dígito Conta</th>
+              <th>Data Pagamento</th>
+              <th>Valor</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="d-grid mb-4">
+      <button type="button" class="btn btn-lg btn-primary" onclick="generateCnab()">Gerar Cnab240</button>
+    </div>
+    <div class="mb-5">
+      <textarea id="output" class="form-control" readonly placeholder="Os headers CNAB aparecerão aqui..."></textarea>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

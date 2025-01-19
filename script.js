@@ -215,10 +215,6 @@ function generateTrailerLote() {}
 function generateTrailerArquivo() {}
 
 //TODO implementar uma opcao de baixar arquivo txt do CNAB
-//TODO implementar uma funcionalidade que salva o header do cnab no local storage para futuras consultas
-//TODO implementar uma funcionalidade que busca headers ja salvos no local storage e preenche o formulario com os valores
-//TODO implementar uma funcionalidade que salva os beneficiarios no local storage para futuras consultas
-//TODO implementar uma funcionalidade que busca beneficiarios ja salvos no local storage e preenche a tabela com os valores
 document.getElementById("output").value = "";
 
 function saveHeader() {
