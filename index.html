@@ -26,7 +26,7 @@
                     <div class="row g-3">
                         <div class="col-12 col-sm-6 col-md-4">
                             <label for="header-bankCode" class="form-label">Código do Banco</label>
-                            <input type="text" class="form-control" id="header-bankCode" maxlength="3" required>
+                            <input type="text" class="form-control numeric-only" id="header-bankCode" maxlength="3" required>
                         </div>
                         <div class="col-12 col-sm-6 col-md-4">
                             <label for="header-companyName" class="form-label">Nome da Empresa</label>
@@ -42,35 +42,35 @@
                         <div class="col-12 col-sm-6 col-md-4">
                             <label for="header-registrationNumber" class="form-label">Número de Inscrição da
                                 Empresa</label>
-                            <input type="text" class="form-control" id="header-registrationNumber" maxlength="14"
+                            <input type="text" class="form-control numeric-only" id="header-registrationNumber" maxlength="14"
                                 required>
                         </div>
                         <div class="col-12 col-sm-6 col-md-4">
                             <label for="header-convenioCode" class="form-label">Código do Convênio</label>
-                            <input type="text" class="form-control" id="header-convenioCode" maxlength="20">
+                            <input type="text" class="form-control numeric-only" id="header-convenioCode" maxlength="20">
                         </div>
                         <div class="col-12 col-sm-6 col-md-4">
                             <label for="header-agency" class="form-label">Agência</label>
-                            <input type="text" class="form-control" id="header-agency" maxlength="5" required>
+                            <input type="text" class="form-control numeric-only" id="header-agency" maxlength="5" required>
                         </div>
                     </div>
 
                     <div class="row g-3 mt-2">
                         <div class="col-12 col-sm-4 col-md-2">
                             <label for="header-agencyDv" class="form-label">Dígito da Agência</label>
-                            <input type="text" class="form-control" id="header-agencyDv" maxlength="1">
+                            <input type="text" class="form-control numeric-only" id="header-agencyDv" maxlength="1">
                         </div>
                         <div class="col-12 col-sm-8 col-md-4">
                             <label for="header-account" class="form-label">Conta Corrente</label>
-                            <input type="text" class="form-control" id="header-account" maxlength="12" required>
+                            <input type="text" class="form-control numeric-only" id="header-account" maxlength="12" required>
                         </div>
                         <div class="col-12 col-sm-4 col-md-2">
                             <label for="header-accountDv" class="form-label">Dígito da Conta</label>
-                            <input type="text" class="form-control" id="header-accountDv" maxlength="1">
+                            <input type="text" class="form-control numeric-only" id="header-accountDv" maxlength="1">
                         </div>
                         <div class="col-12 col-sm-4 col-md-2">
                             <label for="header-layoutVersion" class="form-label">Versão do Layout</label>
-                            <input disabled type="text" class="form-control" id="header-layoutVersion" maxlength="3"
+                            <input disabled type="text" class="form-control numeric-only" id="header-layoutVersion" maxlength="3"
                                 value="084" required>
                         </div>
                         <div class="col-12 col-sm-8 col-md-2">
@@ -98,7 +98,7 @@
                         </div>
                         <div class="col-6 col-md-3">
                             <label for="header-numero" class="form-label">Número</label>
-                            <input type="text" class="form-control" id="header-numero" required maxlength="5">
+                            <input type="text" class="form-control numeric-only" id="header-numero" required maxlength="5">
                         </div>
                         <div class="col-6 col-md-3">
                             <label for="header-complemento" class="form-label">Complemento</label>
@@ -113,7 +113,7 @@
                         </div>
                         <div class="col-6 col-md-4">
                             <label for="header-cep" class="form-label">CEP</label>
-                            <input type="text" class="form-control" id="header-cep" required maxlength="8">
+                            <input type="text" class="form-control numeric-only" id="header-cep" required maxlength="8">
                         </div>
                         <div class="col-6 col-md-4">
                             <label for="header-uf" class="form-label">UF</label>
@@ -121,11 +121,11 @@
                         </div>
                     </div>
                 </form>
-                <button type="button" class="btn btn-success mt-3" onclick="saveHeader()">Salvar Header</button>
+                <div class="d-flex flex-column flex-sm-row justify-content-between mt-4 gap-2">
+                    <button type="button" class="btn btn-success flex-fill mt-3" onclick="saveHeader()">Salvar Header</button>
+                </div>
             </div>
         </div>
-
-        <hr class="my-5">
 
         <!-- Seção Beneficiário -->
         <div class="card mb-5">
@@ -151,7 +151,7 @@
                         </div>
                         <div class="col-6 col-sm-3 col-md-2">
                             <label for="beneficiaryRegistrationNumber" class="form-label">Número de Inscrição</label>
-                            <input type="text" class="form-control" id="beneficiaryRegistrationNumber" maxlength="14"
+                            <input type="text" class="form-control numeric-only" id="beneficiaryRegistrationNumber" maxlength="14"
                                 required>
                         </div>
                     </div>
@@ -159,23 +159,23 @@
                     <div class="row g-3 mt-2">
                         <div class="col-4 col-sm-2">
                             <label for="beneficiaryBank" class="form-label">Banco</label>
-                            <input type="text" class="form-control" id="beneficiaryBank" maxlength="3" required>
+                            <input type="text" class="form-control numeric-only" id="beneficiaryBank" maxlength="3" required>
                         </div>
                         <div class="col-4 col-sm-2">
                             <label for="beneficiaryAgency" class="form-label">Agência</label>
-                            <input type="text" class="form-control" id="beneficiaryAgency" maxlength="5" required>
+                            <input type="text" class="form-control numeric-only" id="beneficiaryAgency" maxlength="5" required>
                         </div>
                         <div class="col-4 col-sm-2">
                             <label for="beneficiaryAgencyDv" class="form-label">Dígito</label>
-                            <input type="text" class="form-control" id="beneficiaryAgencyDv" maxlength="1">
+                            <input type="text" class="form-control numeric-only" id="beneficiaryAgencyDv" maxlength="1">
                         </div>
                         <div class="col-6 col-sm-3">
                             <label for="beneficiaryAccount" class="form-label">Conta Corrente</label>
-                            <input type="text" class="form-control" id="beneficiaryAccount" maxlength="12" required>
+                            <input type="text" class="form-control numeric-only" id="beneficiaryAccount" maxlength="12" required>
                         </div>
                         <div class="col-6 col-sm-1">
                             <label for="beneficiaryAccountDv" class="form-label">Dígito</label>
-                            <input type="text" class="form-control" id="beneficiaryAccountDv" maxlength="1">
+                            <input type="text" class="form-control numeric-only" id="beneficiaryAccountDv" maxlength="1">
                         </div>
                     </div>
 
@@ -185,7 +185,7 @@
                             <input type="date" class="form-control" id="beneficiaryDate" required>
                         </div>
                         <div class="col-12 col-sm-6">
-                            <label for="beneficiaryValue" class="form-label">Valor (R$)</label>
+                            <label for="beneficiaryValue" class="form-label">Valor (R$)</label> <!--TODO colocar a mascara de reais e tratar para aceitar centavos no lugar de so numeros inteiros-->
                             <input type="text" class="form-control" id="beneficiaryValue" required>
                         </div>
                     </div>
@@ -198,7 +198,7 @@
                         </div>
                         <div class="col-6 col-md-2">
                             <label for="beneficiaryNumero" class="form-label">Número</label>
-                            <input type="text" class="form-control" id="beneficiaryNumero" required maxlength="5">
+                            <input type="text" class="form-control numeric-only" id="beneficiaryNumero" required maxlength="5">
                         </div>
                         <div class="col-6 col-md-3">
                             <label for="beneficiaryComplemento" class="form-label">Complemento</label>
@@ -217,7 +217,7 @@
                         </div>
                         <div class="col-6 col-md-4">
                             <label for="beneficiaryCep" class="form-label">CEP</label>
-                            <input type="text" class="form-control" id="beneficiaryCep" required maxlength="8">
+                            <input type="text" class="form-control numeric-only" id="beneficiaryCep" required maxlength="8">
                         </div>
                         <div class="col-6 col-md-4">
                             <label for="beneficiaryUf" class="form-label">UF</label>
@@ -259,9 +259,9 @@
             </div>
         </div>
 
-        <div class="d-grid mb-4">
-            <button type="button" class="btn btn-lg btn-primary" onclick="generateCnab()">Gerar Cnab240</button>
-            <button type="button" class="btn btn-lg btn-info mt-2" onclick="exportToTxt()">Exportar para TXT</button>
+        <div class="d-flex flex-column flex-sm-row justify-content-between mt-4 gap-2">
+            <button type="button" class="btn btn-primary flex-fill" onclick="generateCnab()">Gerar Cnab240</button>
+            <button type="button" class="btn btn-success flex-fill" onclick="exportToTxt()">Exportar para TXT</button>
         </div>
         <div class="mb-5">
             <textarea id="output" class="form-control" readonly

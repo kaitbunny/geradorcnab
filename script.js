@@ -485,3 +485,17 @@ function exportToTxt() {
 
   document.body.removeChild(a);
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll("input.numeric-only").forEach((input) => {
+    input.addEventListener("input", function () {
+      this.value = this.value.replace(/[^0-9]/g, "");
+    });
+  });
+
+  document.querySelectorAll("input").forEach((input) => {
+    input.addEventListener("input", function () {
+      this.value = this.value.replace(/[^a-zA-Z0-9 ]/g, "");
+    });
+  });
+});
