@@ -213,13 +213,17 @@ function generateCnab() {
   }).join("\n");
 
   //parte 3: gerar os trailers
+  let registersWithTrailers = registersCount + 2;
 
   registersCount = completeNum(parseInt(registersCount), 6);
   totalValue = completeNum(parseInt(totalValue), 18);
 
   const trailerLote = `${bankCode}${serviceBatch}${RegisterType.TRAILER_LOTE}${fillWithSpaces(9)}${registersCount}${totalValue}${fillWithZeros(18)}${fillWithZeros(6)}${fillWithSpaces(165)}${fillWithSpaces(10)}`;
+  
+  registersWithTrailers = completeNum(parseInt(registersWithTrailers), 6);
+  const trailerArquivo = `${bankCode}9999${RegisterType.TRAILER_ARQUIVO}${fillWithSpaces(9)}000001${registersWithTrailers}${fillWithZeros(6)}${fillWithSpaces(205)}`;
 
-  document.getElementById("output").value = `${headerArquivo}\n${headerLote}\n${segments}\n${trailerLote}`;
+  document.getElementById("output").value = `${headerArquivo}\n${headerLote}\n${segments}\n${trailerLote}\n${trailerArquivo}`;
 }
 
 //TODO implementar a logica de gerar os trailers
