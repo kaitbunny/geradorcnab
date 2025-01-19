@@ -181,6 +181,8 @@ function generateCnab() {
   const headerLote = `${bankCode}${serviceBatch}${RegisterType.HEADER_LOTE}${movementType}${serviceType}${serviceForm}${layoutBatchVersion}${fillWithSpaces(1)}${TipoInscricao.CNPJ}${registrationNumber}${convenioCode}${agency}${agencyDv}${account}${accountDv}${fillWithSpaces(1)}${companyName}${message}${logradouro}${numero}${complemento}${cidade}${cep}${uf}${fillWithSpaces(18)}`;
 
   //parte 2: gerar os beneficiarios
+  let registersCount = 2;
+  let totalValue = 0;
 
   const segments = beneficiaries.map((beneficiary, index) => {
     const indiceImpar = index * 2 + 1;
@@ -203,10 +205,21 @@ function generateCnab() {
                                                                                                                                                                                                                                                                                                                                                                                                          //credito em conta
     let segmentA = `${bankCode}${serviceBatch}${RegisterType.DETALHE}${completeNum(parseInt(indiceImpar), 5)}A000000${beneficiary.bank}${beneficiary.agency}${beneficiary.agencyDv}${beneficiary.account}${beneficiary.accountDv} ${beneficiary.name}${fillWithSpaces(20)}${beneficiary.paymentDate}BRL${fillWithZeros(15)}${beneficiary.value}${fillWithSpaces(20)}${fillWithZeros(8)}${fillWithZeros(15)}${fillWithSpaces(40)}01${fillWithSpaces(10)}0${fillWithSpaces(10)}`;                                                                                     //cpf
     let segmentB = `${bankCode}${serviceBatch}${RegisterType.DETALHE}${completeNum(parseInt(indiceImpar + 1), 5)}B${fillWithSpaces(3)}${beneficiary.registrationType}${beneficiary.registrationNumber}${beneficiary.logradouro}${beneficiary.numero}${beneficiary.complemento}${beneficiary.bairro}${beneficiary.cidade}${beneficiary.cep}${beneficiary.uf}${generationDate}${beneficiary.value}${fillWithZeros(60)}${fillWithSpaces(15)}0${fillWithSpaces(14)}`;
+    
+    registersCount += 2;
+    totalValue += parseInt(beneficiary.value);
+    
     return `${segmentA}\n${segmentB}`;
   }).join("\n");
 
-  document.getElementById("output").value = `${headerArquivo}\n${headerLote}\n${segments}`;
+  //parte 3: gerar os trailers
+
+  registersCount = completeNum(parseInt(registersCount), 6);
+  totalValue = completeNum(parseInt(totalValue), 18);
+
+  const trailerLote = `${bankCode}${serviceBatch}${RegisterType.TRAILER_LOTE}${fillWithSpaces(9)}${registersCount}${totalValue}${fillWithZeros(18)}${fillWithZeros(6)}${fillWithSpaces(165)}${fillWithSpaces(10)}`;
+
+  document.getElementById("output").value = `${headerArquivo}\n${headerLote}\n${segments}\n${trailerLote}`;
 }
 
 //TODO implementar a logica de gerar os trailers
