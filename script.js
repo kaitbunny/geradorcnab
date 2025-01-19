@@ -186,8 +186,8 @@ function generateCnab() {
     beneficiary.name = completeAlfa(beneficiary.name, 30);
     beneficiary.paymentDate = beneficiary.paymentDate.split("-").reverse().join("");
     beneficiary.value = completeNum(parseInt(beneficiary.value).toString(), 15); //adicionar uma mascara e fazer os bereguenight
-    
-    let segmentA = `${bankCode}${serviceBatch}${RegisterType.DETALHE}${completeNum(index + 1, 5)}A000018${beneficiary.bank}${beneficiary.agency}${beneficiary.agencyDv}${beneficiary.account}${beneficiary.accountDv} ${beneficiary.name}${fillWithSpaces(20)}${beneficiary.paymentDate}BRL${fillWithZeros(15)}${beneficiary.value}${fillWithSpaces(20)}`;
+                                                                                                                                                                                                                                                                                                                                                                                                                  //credito em conta
+    let segmentA = `${bankCode}${serviceBatch}${RegisterType.DETALHE}${completeNum(index + 1, 5)}A000018${beneficiary.bank}${beneficiary.agency}${beneficiary.agencyDv}${beneficiary.account}${beneficiary.accountDv} ${beneficiary.name}${fillWithSpaces(20)}${beneficiary.paymentDate}BRL${fillWithZeros(15)}${beneficiary.value}${fillWithSpaces(20)}${fillWithZeros(8)}${fillWithZeros(15)}${fillWithSpaces(40)}01${fillWithSpaces(10)}0${fillWithSpaces(10)}`;
     index++;
     let segmentB = `${bankCode}${serviceBatch}${RegisterType.DETALHE}${completeNum(index + 1, 5)}B`;
     return `${segmentA}\n${segmentB}`;
