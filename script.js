@@ -337,28 +337,42 @@ function listSavedHeaders() {
   popup.style.background = "#fff";
   popup.style.padding = "20px";
   popup.style.border = "1px solid #000";
-  popup.style.zIndex = "1000";
+  popup.style.zIndex = "2000";
   popup.style.maxHeight = "80%";
   popup.style.overflowY = "auto";
+  popup.style.width = "80%";
 
-  let list = document.createElement("ul");
-  savedHeaders.forEach((header, index) => {
-    let listItem = document.createElement("li");
-    listItem.style.cursor = "pointer";
-    listItem.textContent = `${header["header-companyName"]} - ${header["header-bankName"]}`;
-    listItem.onclick = function () {
+  // Criação da tabela para Headers salvos
+  let table = document.createElement("table");
+  table.className = "table table-bordered table-hover";
+
+  let thead = document.createElement("thead");
+  thead.innerHTML = `<tr>
+                         <th>Empresa</th>
+                         <th>Banco</th>
+                       </tr>`;
+
+  let tbody = document.createElement("tbody");
+
+  savedHeaders.forEach((header) => {
+    let row = document.createElement("tr");
+    row.style.cursor = "pointer";
+    row.innerHTML = `<td>${header["header-companyName"] || ""}</td>
+                       <td>${header["header-bankName"] || ""}</td>`;
+    row.onclick = function () {
       fillHeaderFormFromObject(header);
       document.body.removeChild(popup);
     };
-    list.appendChild(listItem);
+    tbody.appendChild(row);
   });
 
-  popup.appendChild(list);
+  table.appendChild(thead);
+  table.appendChild(tbody);
+  popup.appendChild(table);
 
   let closeBtn = document.createElement("button");
   closeBtn.textContent = "Fechar";
-  closeBtn.style.display = "block";
-  closeBtn.style.marginTop = "10px";
+  closeBtn.className = "btn btn-secondary mt-3";
   closeBtn.onclick = function () {
     document.body.removeChild(popup);
   };
@@ -415,29 +429,46 @@ function listSavedBeneficiaries() {
   popup.style.background = "#fff";
   popup.style.padding = "20px";
   popup.style.border = "1px solid #000";
-  popup.style.zIndex = "1000";
+  popup.style.zIndex = "2000";
   popup.style.maxHeight = "80%";
   popup.style.overflowY = "auto";
+  popup.style.width = "80%";
 
-  let list = document.createElement("ul");
-  savedBeneficiaries.forEach((beneficiary, index) => {
-    let listItem = document.createElement("li");
-    listItem.style.cursor = "pointer";
-    // Exibe, por exemplo, o nome e o banco do beneficiário como referência
-    listItem.textContent = `${beneficiary["beneficiaryName"]} - ${beneficiary["beneficiaryBank"]}`;
-    listItem.onclick = function () {
+  // Criação da tabela para Beneficiários salvos
+  let table = document.createElement("table");
+  table.className = "table table-bordered table-hover";
+
+  let thead = document.createElement("thead");
+  thead.innerHTML = `<tr>
+                         <th>Nome</th>
+                         <th>Nº Inscrição</th>
+                         <th>Valor</th>
+                       </tr>`;
+
+  let tbody = document.createElement("tbody");
+
+  savedBeneficiaries.forEach((beneficiary) => {
+    let row = document.createElement("tr");
+    row.style.cursor = "pointer";
+    row.innerHTML = `<td>${beneficiary["beneficiaryName"] || ""}</td>
+                       <td>${
+                         beneficiary["beneficiaryRegistrationNumber"] || ""
+                       }</td>
+                       <td>${beneficiary["beneficiaryValue"] || ""}</td>`;
+    row.onclick = function () {
       fillBeneficiaryFormFromObject(beneficiary);
       document.body.removeChild(popup);
     };
-    list.appendChild(listItem);
+    tbody.appendChild(row);
   });
 
-  popup.appendChild(list);
+  table.appendChild(thead);
+  table.appendChild(tbody);
+  popup.appendChild(table);
 
   let closeBtn = document.createElement("button");
   closeBtn.textContent = "Fechar";
-  closeBtn.style.display = "block";
-  closeBtn.style.marginTop = "10px";
+  closeBtn.className = "btn btn-secondary mt-3";
   closeBtn.onclick = function () {
     document.body.removeChild(popup);
   };
