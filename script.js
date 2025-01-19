@@ -1,15 +1,18 @@
+//funcoes auxiliares para formatacao dos atributos do cnab
 function completeAlfa(str, length) {
-  //TODO fazer a logica de jogar o que ta escrito em alfa para a esquerda e completar a direita com espacos em branco
-  return (str.padEnd(length, " ")).toUpperCase();
+  return ((str.toString()).padEnd(length, " ")).toUpperCase();
 }
 
 function completeNum(str, length) {
-  //TODO fazer a logica de jogar o que ta escrito em num para a direita e completar a esquerda com zeros
-  return str.padStart(length, "0");
+  return (str.toString()).padStart(length, "0");
 }
 
 function fillWithSpaces(length) {
     return " ".repeat(length);
+}
+
+function fillWithZeros(length) {
+    return "0".repeat(length);
 }
 
 let beneficiaries = []; // Lista para armazenar beneficiários
@@ -23,6 +26,10 @@ function addBeneficiary() {
     ),
     bank: completeNum(document.getElementById("beneficiaryBank").value, 3),
     agency: completeNum(document.getElementById("beneficiaryAgency").value, 5),
+    agencyDv: completeNum(
+      document.getElementById("beneficiaryAgencyDv").value,
+      1
+    ),
     account: completeNum(
       document.getElementById("beneficiaryAccount").value,
       12
@@ -71,6 +78,7 @@ function addBeneficiary() {
         <td>${beneficiary.name.trim()}</td>
         <td>${beneficiary.bank}</td>
         <td>${beneficiary.agency}</td>
+        <td>${beneficiary.agencyDv}</td>
         <td>${beneficiary.account}</td>
         <td>${beneficiary.accountDv}</td>
         <td>${beneficiary.paymentDate}</td>
@@ -79,14 +87,22 @@ function addBeneficiary() {
   tableBody.appendChild(row);
 }
 
-function generateCNABHeaders() {
+class RegisterType {
+    static HEADER_ARQUIVO = '0';
+    static HEADER_LOTE = '1';
+    static DETALHE = '3';
+    static TRAILER_LOTE = '5';
+    static TRAILER_ARQUIVO = '9';
+}
+
+function generateCnab() {
+  //parter 1: gerar os headers
   //header do arquivo
   const bankCode = completeNum(
     document.getElementById("header-bankCode").value,
     3
   );
   const batch = '0000';
-  const recordType = '0';
   const registrationType = '2';
   const registrationNumber = completeNum(
     document.getElementById("header-registrationNumber").value,
@@ -131,8 +147,7 @@ function generateCNABHeaders() {
   const density = completeNum('1600', 5);
 
   //header do lote
-  const serviceBatchHeader = completeNum('1', 4);
-  const headerRegisterType = '1';
+  const serviceBatch = completeNum('1', 4);
   const movementType = 'C';
   const serviceType = '30';
   const serviceForm = '01'; //credito em conta corrente
@@ -141,8 +156,6 @@ function generateCNABHeaders() {
     document.getElementById("header-message").value,
     40
   );
-
-  //endereço da empresa
   const logradouro = completeAlfa(
     document.getElementById("header-logradouro").value,
     30
@@ -159,26 +172,32 @@ function generateCNABHeaders() {
   const cep = completeAlfa(document.getElementById("header-cep").value, 8);
   const uf = completeAlfa(document.getElementById("header-uf").value, 2);
 
-  const headerArquivo = `${bankCode}${batch}${recordType}${fillWithSpaces(9)}${registrationType}${registrationNumber}${convenioCode}${agency}${agencyDv}${account}${accountDv}${fillWithSpaces(1)}${companyName}${bankName}${fillWithSpaces(10)}${shippingCode}${generationDate}${generationTime}${sequentialNumber}${layoutVersion}${density}${fillWithSpaces(70)}`;
-  const headerLote = `${bankCode}${serviceBatchHeader}${headerRegisterType}${movementType}${serviceType}${serviceForm}${layoutBatchVersion}${fillWithSpaces(1)}${registrationType}${registrationNumber}${convenioCode}${agency}${agencyDv}${account}${accountDv}${fillWithSpaces(1)}${companyName}${message}${logradouro}${numero}${complemento}${cidade}${cep}${uf}${fillWithSpaces(18)}`;
+  const headerArquivo = `${bankCode}${batch}${RegisterType.HEADER_ARQUIVO}${fillWithSpaces(9)}${registrationType}${registrationNumber}${convenioCode}${agency}${agencyDv}${account}${accountDv}${fillWithSpaces(1)}${companyName}${bankName}${fillWithSpaces(10)}${shippingCode}${generationDate}${generationTime}${sequentialNumber}${layoutVersion}${density}${fillWithSpaces(70)}`;
+  const headerLote = `${bankCode}${serviceBatch}${RegisterType.HEADER_LOTE}${movementType}${serviceType}${serviceForm}${layoutBatchVersion}${fillWithSpaces(1)}${registrationType}${registrationNumber}${convenioCode}${agency}${agencyDv}${account}${accountDv}${fillWithSpaces(1)}${companyName}${message}${logradouro}${numero}${complemento}${cidade}${cep}${uf}${fillWithSpaces(18)}`;
 
-  return `${headerArquivo}\n${headerLote}`;
+  //parte 2: gerar os beneficiarios
+
+  const segments = beneficiaries.map((beneficiary, index) => {
+    beneficiary.bank = completeNum(beneficiary.bank, 3);
+    beneficiary.agency = completeNum(beneficiary.agency, 5);
+    beneficiary.agencyDv = completeNum(beneficiary.agencyDv, 1);
+    beneficiary.account = completeNum(beneficiary.account, 12);
+    beneficiary.accountDv = completeNum(beneficiary.accountDv, 1);
+    beneficiary.name = completeAlfa(beneficiary.name, 30);
+    beneficiary.paymentDate = beneficiary.paymentDate.split("-").reverse().join("");
+    beneficiary.value = completeNum(parseInt(beneficiary.value).toString(), 15); //adicionar uma mascara e fazer os bereguenight
+    
+    let segmentA = `${bankCode}${serviceBatch}${RegisterType.DETALHE}${completeNum(index + 1, 5)}A000018${beneficiary.bank}${beneficiary.agency}${beneficiary.agencyDv}${beneficiary.account}${beneficiary.accountDv} ${beneficiary.name}${fillWithSpaces(20)}${beneficiary.paymentDate}BRL${fillWithZeros(15)}${beneficiary.value}${fillWithSpaces(20)}`;
+    index++;
+    let segmentB = `${bankCode}${serviceBatch}${RegisterType.DETALHE}${completeNum(index + 1, 5)}B`;
+    return `${segmentA}\n${segmentB}`;
+  }).join("\n");
+
+  document.getElementById("output").value = `${headerArquivo}\n${headerLote}\n${segments}`;
 }
-
-function generateBeneficiarios() {}
-
-function generateRegistroDetalhe() {}
-
-function generateSegmentoA() {}
-
-function generateSegmentoB() {}
 
 //TODO dividir essa logica de gerar os segmentos entre os segmentos A e B
 function generateSegments() {
-  const bankCode = completeNum(
-    document.getElementById("header-bankCode").value,
-    3
-  );
   return beneficiaries
     .map((beneficiary, index) => {
       const segmentA = `${bankCode}00013${completeNum(
@@ -207,15 +226,9 @@ function generateTrailerLote() {}
 
 function generateTrailerArquivo() {}
 
-function generateCnab() {
-  const header = generateCNABHeaders();
-  const segments = generateSegments();
-  document.getElementById("output").value = `${header}\n${segments}`;
-}
-
 //TODO implementar uma opcao de baixar arquivo txt do CNAB
 //TODO implementar uma funcionalidade que salva o header do cnab no local storage para futuras consultas
 //TODO implementar uma funcionalidade que busca headers ja salvos no local storage e preenche o formulario com os valores
 //TODO implementar uma funcionalidade que salva os beneficiarios no local storage para futuras consultas
 //TODO implementar uma funcionalidade que busca beneficiarios ja salvos no local storage e preenche a tabela com os valores
-document.getElementById("output").value = generateCnab();
+document.getElementById("output").value = "";
