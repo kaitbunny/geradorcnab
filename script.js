@@ -223,7 +223,9 @@ function generateCnab() {
   registersWithTrailers = completeNum(parseInt(registersWithTrailers), 6);
   const trailerArquivo = `${bankCode}9999${RegisterType.TRAILER_ARQUIVO}${fillWithSpaces(9)}000001${registersWithTrailers}${fillWithZeros(6)}${fillWithSpaces(205)}`;
 
-  document.getElementById("output").value = `${headerArquivo}\n${headerLote}\n${segments}\n${trailerLote}\n${trailerArquivo}`;
+  const cnab = `${headerArquivo}\n${headerLote}\n${segments}\n${trailerLote}\n${trailerArquivo}`;
+  document.getElementById("output").value = cnab;
+  return cnab;
 }
 
 //TODO implementar a logica de gerar os trailers
@@ -364,4 +366,35 @@ function saveHeader() {
       let input = document.getElementById(key);
       if (input) input.value = beneficiaryData[key];
     }
+  }
+
+  function exportToTxt() {
+    let content = generateCnab();
+    if (!content) {
+      alert("Nenhum CNAB gerado para exportar!");
+      return;
+    }
+  
+    let fullCompanyName = document.getElementById("header-companyName").value.trim();
+    let firstName = fullCompanyName.split(" ")[0] || "Empresa";
+  
+    let totalPayment = beneficiaries.reduce((acc, b) => {
+      return acc + parseInt(b.value);
+    }, 0);
+  
+    let now = new Date();
+    let date = now.toISOString().slice(0, 10).replace(/-/g, "");
+    let time = now.toTimeString().slice(0, 8).replace(/:/g, "");
+  
+    let filename = `cnab240_${firstName}_${totalPayment}_${date}_${time}.txt`;
+  
+    let blob = new Blob([content], { type: "text/plain" });
+  
+    let a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+  
+    document.body.removeChild(a);
   }  
