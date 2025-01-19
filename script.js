@@ -232,3 +232,68 @@ function generateTrailerArquivo() {}
 //TODO implementar uma funcionalidade que salva os beneficiarios no local storage para futuras consultas
 //TODO implementar uma funcionalidade que busca beneficiarios ja salvos no local storage e preenche a tabela com os valores
 document.getElementById("output").value = "";
+
+function saveHeader() {
+    let headerData = {};
+    let inputs = document.querySelectorAll("#cnabForm input");
+    inputs.forEach(input => {
+      headerData[input.id] = input.value;
+    });
+    
+    let savedHeaders = JSON.parse(localStorage.getItem("savedHeaders") || "[]");
+    savedHeaders.push(headerData);
+    
+    localStorage.setItem("savedHeaders", JSON.stringify(savedHeaders));
+    alert("Header salvo com sucesso!");
+  }
+  
+  function listSavedHeaders() {
+    let savedHeaders = JSON.parse(localStorage.getItem("savedHeaders") || "[]");
+    if(savedHeaders.length === 0){
+      alert("Nenhum header salvo.");
+      return;
+    }
+    
+    let popup = document.createElement("div");
+    popup.style.position = "fixed";
+    popup.style.left = "50%";
+    popup.style.top = "50%";
+    popup.style.transform = "translate(-50%, -50%)";
+    popup.style.background = "#fff";
+    popup.style.padding = "20px";
+    popup.style.border = "1px solid #000";
+    popup.style.zIndex = "1000";
+    popup.style.maxHeight = "80%";
+    popup.style.overflowY = "auto";
+  
+    let list = document.createElement("ul");
+    savedHeaders.forEach((header, index) => {
+      let listItem = document.createElement("li");
+      listItem.style.cursor = "pointer";
+      listItem.textContent = `${header["header-companyName"]} - ${header["header-bankName"]}`;
+      listItem.onclick = function(){
+        fillHeaderFormFromObject(header);
+        document.body.removeChild(popup);
+      }
+      list.appendChild(listItem);
+    });
+  
+    popup.appendChild(list);
+    
+    let closeBtn = document.createElement("button");
+    closeBtn.textContent = "Fechar";
+    closeBtn.style.display = "block";
+    closeBtn.style.marginTop = "10px";
+    closeBtn.onclick = function(){ document.body.removeChild(popup); }
+    popup.appendChild(closeBtn);
+  
+    document.body.appendChild(popup);
+  }
+  
+  function fillHeaderFormFromObject(headerData) {
+    for(let key in headerData){
+      let input = document.getElementById(key);
+      if(input) input.value = headerData[key];
+    }
+  }
+  
