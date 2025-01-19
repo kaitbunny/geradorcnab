@@ -3,9 +3,9 @@ function completeAlfa(str, length) {
   return ((str.toString()).padEnd(length, " ")).toUpperCase();
 }
 
-function completeNum(str, length) {
-  return (str.toString()).padStart(length, "0");
-}
+function completeNum(num, length) {
+  return num.toString().padStart(length, "0");
+}  
 
 function fillWithSpaces(length) {
     return " ".repeat(length);
@@ -25,22 +25,22 @@ function addBeneficiary() {
       30
     ),
     registrationType: document.getElementById("beneficiaryRegistrationType").value,
-    registrationNumber: completeNum(
-      document.getElementById("beneficiaryRegistrationNumber").value,
+    registrationNumber: completeNum(parseInt(
+      document.getElementById("beneficiaryRegistrationNumber").value),
       14
     ),
-    bank: completeNum(document.getElementById("beneficiaryBank").value, 3),
-    agency: completeNum(document.getElementById("beneficiaryAgency").value, 5),
-    agencyDv: completeNum(
-      document.getElementById("beneficiaryAgencyDv").value,
+    bank: completeNum(parseInt(document.getElementById("beneficiaryBank").value), 3),
+    agency: completeNum(parseInt(document.getElementById("beneficiaryAgency").value), 5),
+    agencyDv: completeNum(parseInt(
+      document.getElementById("beneficiaryAgencyDv").value),
       1
     ),
-    account: completeNum(
-      document.getElementById("beneficiaryAccount").value,
+    account: completeNum(parseInt(
+      document.getElementById("beneficiaryAccount").value),
       12
     ),
-    accountDv: completeNum(
-      document.getElementById("beneficiaryAccountDv").value,
+    accountDv: completeNum(parseInt(
+      document.getElementById("beneficiaryAccountDv").value),
       1
     ),
     paymentDate: document
@@ -48,12 +48,7 @@ function addBeneficiary() {
       .value.split("-")
       .reverse()
       .join(""),
-    value: completeNum(
-      parseInt(
-        document.getElementById("beneficiaryValue").value * 100
-      ).toString(),
-      15
-    ),
+    value: completeNum(parseInt(document.getElementById("beneficiaryValue").value * 100),15),
     logradouro: completeAlfa(
       document.getElementById("beneficiaryLogradouro").value,
       30
@@ -108,30 +103,30 @@ class TipoInscricao {
 function generateCnab() {
   //parter 1: gerar os headers
   //header do arquivo
-  const bankCode = completeNum(
-    document.getElementById("header-bankCode").value,
+  const bankCode = completeNum(parseInt(
+    document.getElementById("header-bankCode").value),
     3
   );
   const batch = '0000';
-  const registrationNumber = completeNum(
-    document.getElementById("header-registrationNumber").value,
+  const registrationNumber = completeNum(parseInt(
+    document.getElementById("header-registrationNumber").value),
     14
   );
   const convenioCode = completeAlfa(
     document.getElementById("header-convenioCode").value,
     20
   );
-  const agency = completeNum(document.getElementById("header-agency").value, 5);
-  const agencyDv = completeNum(
-    document.getElementById("header-agencyDv").value,
+  const agency = completeNum(parseInt(document.getElementById("header-agency").value), 5);
+  const agencyDv = completeNum(parseInt(
+    document.getElementById("header-agencyDv").value),
     1
   );
-  const account = completeNum(
-    document.getElementById("header-account").value,
+  const account = completeNum(parseInt(
+    document.getElementById("header-account").value),
     12
   );
-  const accountDv = completeNum(
-    document.getElementById("header-accountDv").value,
+  const accountDv = completeNum(parseInt(
+    document.getElementById("header-accountDv").value),
     1
   );
   const companyName = completeAlfa(
@@ -151,12 +146,12 @@ function generateCnab() {
     .getElementById("header-generationTime")
     .value.replace(/:/g, "")
     .padEnd(6, "0");
-  const sequentialNumber = completeNum('1', 6);
+  const sequentialNumber = completeNum(parseInt('1'), 6);
   const layoutVersion = '084';
-  const density = completeNum('1600', 5);
+  const density = completeNum(parseInt('1600'), 5);
 
   //header do lote
-  const serviceBatch = completeNum('1', 4);
+  const serviceBatch = completeNum(parseInt('1'), 4);
   const movementType = 'C';
   const serviceType = '30';
   const serviceForm = '01'; //credito em conta corrente
@@ -169,7 +164,7 @@ function generateCnab() {
     document.getElementById("header-logradouro").value,
     30
   );
-  const numero = completeNum(document.getElementById("header-numero").value, 5);
+  const numero = completeNum(parseInt(document.getElementById("header-numero").value), 5);
   const complemento = completeAlfa(
     document.getElementById("header-complemento").value,
     15
@@ -181,32 +176,32 @@ function generateCnab() {
   const cep = completeAlfa(document.getElementById("header-cep").value, 8);
   const uf = completeAlfa(document.getElementById("header-uf").value, 2);
 
-  const headerArquivo = `${bankCode}${batch}${RegisterType.HEADER_ARQUIVO}${fillWithSpaces(9)}${TipoInscricao.CNPJ}${registrationNumber}${convenioCode}${agency}${agencyDv}${account}${accountDv}${fillWithSpaces(1)}${companyName}${bankName}${fillWithSpaces(10)}${shippingCode}${generationDate}${generationTime}${sequentialNumber}${layoutVersion}${density}${fillWithSpaces(70)}`;
+  const headerArquivo = `${bankCode}${batch}${RegisterType.HEADER_ARQUIVO}${fillWithSpaces(9)}${TipoInscricao.CNPJ}${registrationNumber}${convenioCode}${agency}${agencyDv}${account}${accountDv}${fillWithSpaces(1)}${companyName}${bankName}${fillWithSpaces(10)}${shippingCode}${generationDate}${generationTime}${sequentialNumber}${layoutVersion}${density}${fillWithSpaces(69)}`;
   const headerLote = `${bankCode}${serviceBatch}${RegisterType.HEADER_LOTE}${movementType}${serviceType}${serviceForm}${layoutBatchVersion}${fillWithSpaces(1)}${TipoInscricao.CNPJ}${registrationNumber}${convenioCode}${agency}${agencyDv}${account}${accountDv}${fillWithSpaces(1)}${companyName}${message}${logradouro}${numero}${complemento}${cidade}${cep}${uf}${fillWithSpaces(18)}`;
 
   //parte 2: gerar os beneficiarios
 
   const segments = beneficiaries.map((beneficiary, index) => {
     const indiceImpar = index * 2 + 1;
-    beneficiary.bank = completeNum(parseInt(beneficiary.bank.toString()), 3);
-    beneficiary.registrationNumber = completeNum(parseInt(beneficiary.registrationNumber.toString()), 14);
-    beneficiary.agency = completeNum(parseInt(beneficiary.agency.toString()), 5);
-    beneficiary.agencyDv = completeNum(parseInt(beneficiary.agencyDv.toString()), 1);
-    beneficiary.account = completeNum(parseInt(beneficiary.account.toString()), 12);
-    beneficiary.accountDv = completeNum(parseInt(beneficiary.accountDv.toString()), 1);
+    beneficiary.bank = completeNum(parseInt(beneficiary.bank), 3);
+    beneficiary.registrationNumber = completeNum(parseInt(beneficiary.registrationNumber), 14);
+    beneficiary.agency = completeNum(parseInt(beneficiary.agency), 5);
+    beneficiary.agencyDv = completeNum(parseInt(beneficiary.agencyDv), 1);
+    beneficiary.account = completeNum(parseInt(beneficiary.account), 12);
+    beneficiary.accountDv = completeNum(parseInt(beneficiary.accountDv), 1);
     beneficiary.name = completeAlfa(beneficiary.name, 30);
     beneficiary.paymentDate = beneficiary.paymentDate.split("-").reverse().join("");
-    beneficiary.value = completeNum(parseInt(beneficiary.value).toString(), 15); //adicionar uma mascara e fazer os beregue.toString()night
+    beneficiary.value = completeNum(parseInt(beneficiary.value), 15);
     beneficiary.logradouro = completeAlfa(beneficiary.logradouro, 30);
-    beneficiary.numero = completeNum(parseInt(beneficiary.numero.toString()), 5);
+    beneficiary.numero = completeNum(parseInt(beneficiary.numero), 5);
     beneficiary.complemento = completeAlfa(beneficiary.complemento, 15);
     beneficiary.bairro = completeAlfa(beneficiary.bairro, 15);
     beneficiary.cidade = completeAlfa(beneficiary.cidade, 20);
     beneficiary.cep = completeAlfa(beneficiary.cep, 8);
     beneficiary.uf = completeAlfa(beneficiary.uf, 2);
                                                                                                                                                                                                                                                                                                                                                                                                          //credito em conta
-    let segmentA = `${bankCode}${serviceBatch}${RegisterType.DETALHE}${completeNum(index, 5)}A000000${beneficiary.bank}${beneficiary.agency}${beneficiary.agencyDv}${beneficiary.account}${beneficiary.accountDv} ${beneficiary.name}${fillWithSpaces(20)}${beneficiary.paymentDate}BRL${fillWithZeros(15)}${beneficiary.value}${fillWithSpaces(20)}${fillWithZeros(8)}${fillWithZeros(15)}${fillWithSpaces(40)}01${fillWithSpaces(10)}0${fillWithSpaces(10)}`;                                                                                     //cpf
-    let segmentB = `${bankCode}${serviceBatch}${RegisterType.DETALHE}${completeNum(index + 1, 5)}B${fillWithSpaces(3)}${beneficiary.registrationType}${beneficiary.registrationNumber}${beneficiary.logradouro}${beneficiary.numero}${beneficiary.complemento}${beneficiary.bairro}${beneficiary.cidade}${beneficiary.cep}${beneficiary.uf}${generationDate}${beneficiary.value}${fillWithZeros(60)}${fillWithSpaces(15)}0${fillWithSpaces(14)}`;
+    let segmentA = `${bankCode}${serviceBatch}${RegisterType.DETALHE}${completeNum(parseInt(index), 5)}A000000${beneficiary.bank}${beneficiary.agency}${beneficiary.agencyDv}${beneficiary.account}${beneficiary.accountDv} ${beneficiary.name}${fillWithSpaces(20)}${beneficiary.paymentDate}BRL${fillWithZeros(15)}${beneficiary.value}${fillWithSpaces(20)}${fillWithZeros(8)}${fillWithZeros(15)}${fillWithSpaces(40)}01${fillWithSpaces(10)}0${fillWithSpaces(10)}`;                                                                                     //cpf
+    let segmentB = `${bankCode}${serviceBatch}${RegisterType.DETALHE}${completeNum(parseInt(index + 1), 5)}B${fillWithSpaces(3)}${beneficiary.registrationType}${beneficiary.registrationNumber}${beneficiary.logradouro}${beneficiary.numero}${beneficiary.complemento}${beneficiary.bairro}${beneficiary.cidade}${beneficiary.cep}${beneficiary.uf}${generationDate}${beneficiary.value}${fillWithZeros(60)}${fillWithSpaces(15)}0${fillWithSpaces(14)}`;
     return `${segmentA}\n${segmentB}`;
   }).join("\n");
 
