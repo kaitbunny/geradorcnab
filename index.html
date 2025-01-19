@@ -97,8 +97,13 @@
         <button type="button" onclick="saveHeader()">Salvar Header</button>
     </div>
 
+    <hr>
+
     <div class="container">
-        <h2>Adicionar Beneficiário</h2>
+        <div style="display: flex; align-items: center; justify-content: space-between;">
+            <h2>Adicionar Beneficiário</h2>
+            <button type="button" onclick="listSavedBeneficiaries()">Listar Beneficiários Salvos</button>
+        </div>
         <form id="beneficiaryForm">
             <h3>Segmento A</h3>
             <div class="form-group">
@@ -175,7 +180,10 @@
                 <input type="text" id="beneficiaryUf" required maxlength="2">
             </div>
 
-            <button type="button" onclick="addBeneficiary()">Adicionar Beneficiário</button>
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+                <button type="button" onclick="addBeneficiary()">Adicionar Beneficiário</button>
+                <button type="button" onclick="saveBeneficiaryData()">Salvar Beneficiário</button>
+            </div>
         </form>
 
         <h3>Beneficiários Adicionados</h3>

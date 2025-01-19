@@ -85,6 +85,7 @@ function addBeneficiary() {
         <td>${(parseInt(beneficiary.value) / 100).toFixed(2)}</td>
     `;
   tableBody.appendChild(row);
+  document.getElementById("beneficiaryForm").reset();
 }
 
 class RegisterType {
@@ -284,3 +285,70 @@ function saveHeader() {
     }
   }
   
+  function saveBeneficiaryData() {
+    let beneficiaryData = {};
+    // Captura todos os inputs e selects do formulário de beneficiário
+    let inputs = document.querySelectorAll("#beneficiaryForm input, #beneficiaryForm select");
+    inputs.forEach(input => {
+      beneficiaryData[input.id] = input.value;
+    });
+  
+    // Recupera a lista existente de beneficiários salvos ou inicializa uma nova lista
+    let savedBeneficiaries = JSON.parse(localStorage.getItem("savedBeneficiaries") || "[]");
+    savedBeneficiaries.push(beneficiaryData);
+  
+    // Armazena a lista atualizada no localStorage
+    localStorage.setItem("savedBeneficiaries", JSON.stringify(savedBeneficiaries));
+    alert("Beneficiário salvo com sucesso!");
+  }
+
+  function listSavedBeneficiaries() {
+    let savedBeneficiaries = JSON.parse(localStorage.getItem("savedBeneficiaries") || "[]");
+    if (savedBeneficiaries.length === 0) {
+      alert("Nenhum beneficiário salvo.");
+      return;
+    }
+  
+    let popup = document.createElement("div");
+    popup.style.position = "fixed";
+    popup.style.left = "50%";
+    popup.style.top = "50%";
+    popup.style.transform = "translate(-50%, -50%)";
+    popup.style.background = "#fff";
+    popup.style.padding = "20px";
+    popup.style.border = "1px solid #000";
+    popup.style.zIndex = "1000";
+    popup.style.maxHeight = "80%";
+    popup.style.overflowY = "auto";
+  
+    let list = document.createElement("ul");
+    savedBeneficiaries.forEach((beneficiary, index) => {
+      let listItem = document.createElement("li");
+      listItem.style.cursor = "pointer";
+      // Exibe, por exemplo, o nome e o banco do beneficiário como referência
+      listItem.textContent = `${beneficiary["beneficiaryName"]} - ${beneficiary["beneficiaryBank"]}`;
+      listItem.onclick = function () {
+        fillBeneficiaryFormFromObject(beneficiary);
+        document.body.removeChild(popup);
+      }
+      list.appendChild(listItem);
+    });
+  
+    popup.appendChild(list);
+  
+    let closeBtn = document.createElement("button");
+    closeBtn.textContent = "Fechar";
+    closeBtn.style.display = "block";
+    closeBtn.style.marginTop = "10px";
+    closeBtn.onclick = function () { document.body.removeChild(popup); }
+    popup.appendChild(closeBtn);
+  
+    document.body.appendChild(popup);
+  }
+
+  function fillBeneficiaryFormFromObject(beneficiaryData) {
+    for (let key in beneficiaryData) {
+      let input = document.getElementById(key);
+      if (input) input.value = beneficiaryData[key];
+    }
+  }  
