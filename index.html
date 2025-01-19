@@ -106,6 +106,17 @@
                 <input type="text" id="beneficiaryName" maxlength="30" required>
             </div>
             <div class="form-group">
+                <label for="beneficiaryRegistrationType">Tipo de Inscrição do Beneficiário</label>
+                <select id="beneficiaryRegistrationType" required>
+                    <option value="1">CPF</option>
+                    <option value="2">CNPJ</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="beneficiaryRegistrationNumber">Número de Inscrição do Beneficiário</label>
+                <input type="text" id="beneficiaryRegistrationNumber" maxlength="14" required>
+            </div>
+            <div class="form-group">
                 <label for="beneficiaryBank">Banco do Beneficiário</label>
                 <input type="text" id="beneficiaryBank" maxlength="3" required>
             </div>

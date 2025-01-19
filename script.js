@@ -24,6 +24,11 @@ function addBeneficiary() {
       document.getElementById("beneficiaryName").value.toUpperCase(),
       30
     ),
+    registrationType: document.getElementById("beneficiaryRegistrationType").value,
+    registrationNumber: completeNum(
+      document.getElementById("beneficiaryRegistrationNumber").value,
+      14
+    ),
     bank: completeNum(document.getElementById("beneficiaryBank").value, 3),
     agency: completeNum(document.getElementById("beneficiaryAgency").value, 5),
     agencyDv: completeNum(
@@ -95,6 +100,11 @@ class RegisterType {
     static TRAILER_ARQUIVO = '9';
 }
 
+class TipoInscricao {
+    static CPF = '1';
+    static CNPJ = '2';
+}
+
 function generateCnab() {
   //parter 1: gerar os headers
   //header do arquivo
@@ -103,7 +113,6 @@ function generateCnab() {
     3
   );
   const batch = '0000';
-  const registrationType = '2';
   const registrationNumber = completeNum(
     document.getElementById("header-registrationNumber").value,
     14
@@ -172,53 +181,36 @@ function generateCnab() {
   const cep = completeAlfa(document.getElementById("header-cep").value, 8);
   const uf = completeAlfa(document.getElementById("header-uf").value, 2);
 
-  const headerArquivo = `${bankCode}${batch}${RegisterType.HEADER_ARQUIVO}${fillWithSpaces(9)}${registrationType}${registrationNumber}${convenioCode}${agency}${agencyDv}${account}${accountDv}${fillWithSpaces(1)}${companyName}${bankName}${fillWithSpaces(10)}${shippingCode}${generationDate}${generationTime}${sequentialNumber}${layoutVersion}${density}${fillWithSpaces(70)}`;
-  const headerLote = `${bankCode}${serviceBatch}${RegisterType.HEADER_LOTE}${movementType}${serviceType}${serviceForm}${layoutBatchVersion}${fillWithSpaces(1)}${registrationType}${registrationNumber}${convenioCode}${agency}${agencyDv}${account}${accountDv}${fillWithSpaces(1)}${companyName}${message}${logradouro}${numero}${complemento}${cidade}${cep}${uf}${fillWithSpaces(18)}`;
+  const headerArquivo = `${bankCode}${batch}${RegisterType.HEADER_ARQUIVO}${fillWithSpaces(9)}${TipoInscricao.CNPJ}${registrationNumber}${convenioCode}${agency}${agencyDv}${account}${accountDv}${fillWithSpaces(1)}${companyName}${bankName}${fillWithSpaces(10)}${shippingCode}${generationDate}${generationTime}${sequentialNumber}${layoutVersion}${density}${fillWithSpaces(70)}`;
+  const headerLote = `${bankCode}${serviceBatch}${RegisterType.HEADER_LOTE}${movementType}${serviceType}${serviceForm}${layoutBatchVersion}${fillWithSpaces(1)}${TipoInscricao.CNPJ}${registrationNumber}${convenioCode}${agency}${agencyDv}${account}${accountDv}${fillWithSpaces(1)}${companyName}${message}${logradouro}${numero}${complemento}${cidade}${cep}${uf}${fillWithSpaces(18)}`;
 
   //parte 2: gerar os beneficiarios
 
   const segments = beneficiaries.map((beneficiary, index) => {
-    beneficiary.bank = completeNum(beneficiary.bank, 3);
-    beneficiary.agency = completeNum(beneficiary.agency, 5);
-    beneficiary.agencyDv = completeNum(beneficiary.agencyDv, 1);
-    beneficiary.account = completeNum(beneficiary.account, 12);
-    beneficiary.accountDv = completeNum(beneficiary.accountDv, 1);
+    const indiceImpar = index * 2 + 1;
+    beneficiary.bank = completeNum(parseInt(beneficiary.bank.toString()), 3);
+    beneficiary.registrationNumber = completeNum(parseInt(beneficiary.registrationNumber.toString()), 14);
+    beneficiary.agency = completeNum(parseInt(beneficiary.agency.toString()), 5);
+    beneficiary.agencyDv = completeNum(parseInt(beneficiary.agencyDv.toString()), 1);
+    beneficiary.account = completeNum(parseInt(beneficiary.account.toString()), 12);
+    beneficiary.accountDv = completeNum(parseInt(beneficiary.accountDv.toString()), 1);
     beneficiary.name = completeAlfa(beneficiary.name, 30);
     beneficiary.paymentDate = beneficiary.paymentDate.split("-").reverse().join("");
-    beneficiary.value = completeNum(parseInt(beneficiary.value).toString(), 15); //adicionar uma mascara e fazer os bereguenight
-                                                                                                                                                                                                                                                                                                                                                                                                                  //credito em conta
-    let segmentA = `${bankCode}${serviceBatch}${RegisterType.DETALHE}${completeNum(index + 1, 5)}A000018${beneficiary.bank}${beneficiary.agency}${beneficiary.agencyDv}${beneficiary.account}${beneficiary.accountDv} ${beneficiary.name}${fillWithSpaces(20)}${beneficiary.paymentDate}BRL${fillWithZeros(15)}${beneficiary.value}${fillWithSpaces(20)}${fillWithZeros(8)}${fillWithZeros(15)}${fillWithSpaces(40)}01${fillWithSpaces(10)}0${fillWithSpaces(10)}`;
-    index++;
-    let segmentB = `${bankCode}${serviceBatch}${RegisterType.DETALHE}${completeNum(index + 1, 5)}B`;
+    beneficiary.value = completeNum(parseInt(beneficiary.value).toString(), 15); //adicionar uma mascara e fazer os beregue.toString()night
+    beneficiary.logradouro = completeAlfa(beneficiary.logradouro, 30);
+    beneficiary.numero = completeNum(parseInt(beneficiary.numero.toString()), 5);
+    beneficiary.complemento = completeAlfa(beneficiary.complemento, 15);
+    beneficiary.bairro = completeAlfa(beneficiary.bairro, 15);
+    beneficiary.cidade = completeAlfa(beneficiary.cidade, 20);
+    beneficiary.cep = completeAlfa(beneficiary.cep, 8);
+    beneficiary.uf = completeAlfa(beneficiary.uf, 2);
+                                                                                                                                                                                                                                                                                                                                                                                                         //credito em conta
+    let segmentA = `${bankCode}${serviceBatch}${RegisterType.DETALHE}${completeNum(index, 5)}A000000${beneficiary.bank}${beneficiary.agency}${beneficiary.agencyDv}${beneficiary.account}${beneficiary.accountDv} ${beneficiary.name}${fillWithSpaces(20)}${beneficiary.paymentDate}BRL${fillWithZeros(15)}${beneficiary.value}${fillWithSpaces(20)}${fillWithZeros(8)}${fillWithZeros(15)}${fillWithSpaces(40)}01${fillWithSpaces(10)}0${fillWithSpaces(10)}`;                                                                                     //cpf
+    let segmentB = `${bankCode}${serviceBatch}${RegisterType.DETALHE}${completeNum(index + 1, 5)}B${fillWithSpaces(3)}${beneficiary.registrationType}${beneficiary.registrationNumber}${beneficiary.logradouro}${beneficiary.numero}${beneficiary.complemento}${beneficiary.bairro}${beneficiary.cidade}${beneficiary.cep}${beneficiary.uf}${generationDate}${beneficiary.value}${fillWithZeros(60)}${fillWithSpaces(15)}0${fillWithSpaces(14)}`;
     return `${segmentA}\n${segmentB}`;
   }).join("\n");
 
   document.getElementById("output").value = `${headerArquivo}\n${headerLote}\n${segments}`;
-}
-
-//TODO dividir essa logica de gerar os segmentos entre os segmentos A e B
-function generateSegments() {
-  return beneficiaries
-    .map((beneficiary, index) => {
-      const segmentA = `${bankCode}00013${completeNum(
-        (index + 1).toString(),
-        5
-      )}A${beneficiary.bank}${beneficiary.agency}${beneficiary.account}${
-        beneficiary.accountDv
-      } ${beneficiary.name}${beneficiary.paymentDate}${
-        beneficiary.value
-      }${completeAlfa("", 58)}`;
-      const segmentB = `${bankCode}00013${completeNum(
-        (index + 1).toString(),
-        5
-      )}B${beneficiary.logradouro}${beneficiary.numero}${
-        beneficiary.complemento
-      }${beneficiary.bairro}${beneficiary.cidade}${beneficiary.cep}${
-        beneficiary.uf
-      }${completeAlfa("", 74)}`;
-      return `${segmentA}\n${segmentB}`;
-    })
-    .join("\n");
 }
 
 //TODO implementar a logica de gerar os trailers
